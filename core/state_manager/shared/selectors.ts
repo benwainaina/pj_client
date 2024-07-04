@@ -1,12 +1,12 @@
 import {createSelector} from '@reduxjs/toolkit';
 import {IStore} from '../store';
 
-const userState = (state: IStore) => state.sharedStateSlice;
+const sharedState = (state: IStore) => state.sharedStateSlice;
 
 /**
  * whether token is being validated
  */
-export const selectIsValidatingToken = createSelector(userState, state => {
+export const selectIsValidatingToken = createSelector(sharedState, state => {
   return state.tokenIsValidating;
 });
 
@@ -14,7 +14,7 @@ export const selectIsValidatingToken = createSelector(userState, state => {
  * get the token validity
  */
 export const selectUserTokenValidity = createSelector(
-  userState,
+  sharedState,
   state => state.tokenIsValid,
 );
 
@@ -22,6 +22,14 @@ export const selectUserTokenValidity = createSelector(
  * get the value for the user token
  */
 export const selectUserTokenValue = createSelector(
-  userState,
-  state => state.userToken,
+  sharedState,
+  state => state.userToken || '',
+);
+
+/**
+ * select the alert data
+ */
+export const selectAlertData = createSelector(
+  sharedState,
+  state => state.alertData,
 );

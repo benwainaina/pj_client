@@ -1,5 +1,5 @@
 import {Text, View} from 'react-native';
-import {FONT_POPPINS} from './utilities/constants/fonts.constants';
+import {FONT_POPPINS} from '../utilities/constants/fonts.constants';
 
 export const LoadingComponent = ({message}: {message?: string}) => {
   return (

@@ -1,11 +1,30 @@
 export interface ISignupUser {
   /**
-   * the username to identify the user
+   * username to identify the user
    */
   username: string;
 
   /**
-   * the email address of the user
+   * email address of the user
    */
   email: string;
+
+  /**
+   * password of user
+   */
+  password: string;
 }
+
+export interface IAuthState {
+  /**
+   * creating account
+   */
+  isSigningUpUser: boolean;
+
+  /**
+   * logging in user
+   */
+  isLoggingInUser: boolean;
+}
+
+export const IAuthSliceKey = 'authStateSlice';

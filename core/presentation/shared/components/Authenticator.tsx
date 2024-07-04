@@ -1,6 +1,6 @@
 import {useEffect} from 'react';
 import {useDispatch} from 'react-redux';
-import {actionValidateToken} from '../../state_manager/home/actions';
+import {actionValidateToken} from '../../../state_manager/home/actions';
 
 /**
  * An appwide check on the status of the user's token. This will be scafolded in the application

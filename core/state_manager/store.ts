@@ -17,9 +17,12 @@ import {
   REGISTER,
 } from 'redux-persist';
 import {sharedPersistReducer} from './shared/reducers.config';
+import {IAuthSliceKey, IAuthState} from './auth/interfaces';
+import {authPersistReducer} from './auth/reducers.config';
 
 export interface IStore {
   [ISharedSliceKey]: ISharedState;
+  [IAuthSliceKey]: IAuthState;
 }
 
 export let STORE = configureStore({
@@ -43,6 +46,7 @@ export let STORE = configureStore({
      */
     combineReducers({
       [ISharedSliceKey]: sharedPersistReducer,
+      [IAuthSliceKey]: authPersistReducer,
     }),
   ),
   middleware: getDefaultMiddleware =>

@@ -12,8 +12,9 @@ export const actionValidateToken = createAsyncThunk(
     const token = selectUserTokenValue(state);
 
     try {
-      const {data} = await CoreAPIService.post('validate', {token});
-      console.log('data', data);
+      const {data} = await CoreAPIService.post('user/validate_token', {
+        token: token,
+      });
       return {data};
     } catch (error: any) {
       return rejectWithValue(error.message);

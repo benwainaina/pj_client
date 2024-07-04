@@ -1,14 +1,14 @@
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {useEffect, useState} from 'react';
-import {useNavigation} from '@react-navigation/native';
-import {LoadingComponent} from './LoadingComponent';
+import {LoadingComponent} from './components/LoadingComponent';
 import {
   selectIsValidatingToken,
   selectUserTokenValidity,
 } from '../../state_manager/shared/selectors';
 import {AuthComponent} from '../auth/AuthComponent';
 import {HomeComponent} from '../home/HomeComponent';
+import {actionValidateToken} from '../../state_manager/home/actions';
 
 const Stack = createNativeStackNavigator();
 
@@ -16,7 +16,7 @@ export const AppRoutes = () => {
   /**
    * hooks
    */
-  const navigation = useNavigation();
+  const dispatch = useDispatch();
 
   /**
    * selectors
@@ -33,22 +33,14 @@ export const AppRoutes = () => {
    * constants
    */
 
-  /**
-   * effects
-   */
-  useEffect(() => {
-    console.log('initialized');
-  }, []);
-
   return isValidatingToken ? (
-    <LoadingComponent message={'Loading'} />
+    <LoadingComponent message={'Getting ready...'} />
   ) : (
     // <View>
     //   <Text>Lorem!</Text>
     // </View>
     <Stack.Navigator screenOptions={{headerShown: false}}>
-      <Stack.Screen name="auth" component={AuthComponent}></Stack.Screen>
-      {/* {tokenIsValid ? (
+      {tokenIsValid ? (
         <Stack.Group>
           <Stack.Screen name="home" component={HomeComponent}></Stack.Screen>
         </Stack.Group>
@@ -56,7 +48,7 @@ export const AppRoutes = () => {
         <Stack.Group>
           <Stack.Screen name="auth" component={AuthComponent}></Stack.Screen>
         </Stack.Group>
-      )} */}
+      )}
     </Stack.Navigator>
   );
 };

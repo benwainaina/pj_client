@@ -1,3 +1,3 @@
 export const HTTP_API_ENDPOINT = __DEV__
-  ? 'http://127.0.0.1:8000'
+  ? 'http://192.168.100.5:8000'
   : 'THE PRODUCTION LINK WILL GO HERE';

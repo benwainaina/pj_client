@@ -1,5 +1,5 @@
 export interface ISharedState {
-  alertData: IAlertData;
+  alertData: IAlertData | null;
   userToken?: string;
   tokenIsValidating: boolean;
   tokenIsValid: boolean;
@@ -22,11 +22,6 @@ export interface IAlertData {
    * how long the alert will be shown
    */
   duration?: number;
-
-  /**
-   * whether the alert is shown or not
-   */
-  show: boolean;
 }
 
 export const ISharedSliceKey = 'sharedStateSlice';
