@@ -1,6 +1,6 @@
 import {useDispatch, useSelector} from 'react-redux';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {useEffect, useState} from 'react';
+import {useState} from 'react';
 import {LoadingComponent} from './components/LoadingComponent';
 import {
   selectIsValidatingToken,
@@ -8,7 +8,7 @@ import {
 } from '../../state_manager/shared/selectors';
 import {AuthComponent} from '../auth/AuthComponent';
 import {HomeComponent} from '../home/HomeComponent';
-import {actionValidateToken} from '../../state_manager/home/actions';
+import {useNavigation} from '@react-navigation/native';
 
 const Stack = createNativeStackNavigator();
 
@@ -17,6 +17,7 @@ export const AppRoutes = () => {
    * hooks
    */
   const dispatch = useDispatch();
+  const navigation = useNavigation();
 
   /**
    * selectors
@@ -29,16 +30,9 @@ export const AppRoutes = () => {
    */
   const [resolvingRoute, setResolvingRoute] = useState<boolean>(true);
 
-  /**
-   * constants
-   */
-
-  return isValidatingToken ? (
+  return isValidatingToken || tokenIsValid === undefined ? (
     <LoadingComponent message={'Getting ready...'} />
   ) : (
-    // <View>
-    //   <Text>Lorem!</Text>
-    // </View>
     <Stack.Navigator screenOptions={{headerShown: false}}>
       {tokenIsValid ? (
         <Stack.Group>

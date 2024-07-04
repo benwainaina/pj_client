@@ -15,6 +15,18 @@ export interface ISignupUser {
   password: string;
 }
 
+export interface IUserCredentails {
+  /**
+   * email as the identifier of the user
+   */
+  email: string;
+
+  /**
+   * password
+   */
+  password: string;
+}
+
 export interface IAuthState {
   /**
    * creating account

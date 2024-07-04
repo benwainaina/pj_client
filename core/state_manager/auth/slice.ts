@@ -1,5 +1,5 @@
 import {createSlice} from '@reduxjs/toolkit';
-import {actionSignupUser} from './actions';
+import {actionLoginUser, actionSignupUser} from './actions';
 import {IAuthSliceKey, IAuthState} from './interfaces';
 
 const initialState: IAuthState = {
@@ -21,6 +21,15 @@ const sharedSlice = createSlice({
       })
       .addCase(actionSignupUser.rejected, (state, action) => {
         state.isSigningUpUser = false;
+      })
+      .addCase(actionLoginUser.pending, (state, action) => {
+        state.isLoggingInUser = true;
+      })
+      .addCase(actionLoginUser.fulfilled, (state, action) => {
+        state.isLoggingInUser = false;
+      })
+      .addCase(actionLoginUser.rejected, (state, action) => {
+        state.isLoggingInUser = false;
       }),
 });
 

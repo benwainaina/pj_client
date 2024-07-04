@@ -1,8 +1,8 @@
 import {createAsyncThunk} from '@reduxjs/toolkit';
 import * as UserActions from './action.ids';
-import {ISignupUser} from './interfaces';
+import {ISignupUser, IUserCredentails} from './interfaces';
 import {CoreAPIService} from '../api/CoreAPI.service';
-import {setAlertData} from '../shared/slice';
+import {setAlertData, setUserToken} from '../shared/slice';
 
 export const actionSignupUser = createAsyncThunk(
   UserActions.IDActionSignupUser,
@@ -15,8 +15,9 @@ export const actionSignupUser = createAsyncThunk(
       dispatch(
         setAlertData({
           type: 'success',
-          message: 'Your journaling journey begins now!',
-          duration: 1000,
+          message:
+            'Your journaling journey begins now! You can proceed to login.',
+          duration: 2000,
         }),
       );
       return data;
@@ -25,7 +26,30 @@ export const actionSignupUser = createAsyncThunk(
         setAlertData({
           type: 'error',
           message: 'An error occured!',
-          duration: 1000,
+          duration: 5000,
+        }),
+      );
+      return rejectWithValue(error.message);
+    }
+  },
+);
+
+export const actionLoginUser = createAsyncThunk(
+  UserActions.IDActionLoginUser,
+  async (arg: {userCredentials: IUserCredentails}, api) => {
+    const {userCredentials} = arg;
+    const {rejectWithValue, dispatch} = api;
+    try {
+      const data = (
+        await CoreAPIService.post('user/login', {...userCredentials})
+      ).data;
+      dispatch<any>(setUserToken({userToken: data.token}));
+    } catch (error: any) {
+      dispatch(
+        setAlertData({
+          type: 'error',
+          message: 'An error occured!',
+          duration: 5000,
         }),
       );
       return rejectWithValue(error.message);

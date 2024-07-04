@@ -3,7 +3,7 @@ import {IAlertData, ISharedSliceKey, ISharedState} from './interfaces';
 import {actionValidateToken} from '../home/actions';
 
 const initialState: ISharedState = {
-  alertData: {show: false},
+  alertData: {},
   tokenIsValidating: false,
   tokenIsValid: false,
 };
@@ -20,6 +20,7 @@ const sharedSlice = createSlice({
     },
     setUserToken(state, action: {payload: {userToken: string}}) {
       state.userToken = action.payload.userToken;
+      state.tokenIsValid = true;
     },
   },
   extraReducers: builder =>
@@ -29,6 +30,7 @@ const sharedSlice = createSlice({
       })
       .addCase(actionValidateToken.fulfilled, (state, action) => {
         state.tokenIsValidating = false;
+        state.tokenIsValid = true;
       })
       .addCase(actionValidateToken.rejected, (state, action) => {
         state.tokenIsValidating = false;

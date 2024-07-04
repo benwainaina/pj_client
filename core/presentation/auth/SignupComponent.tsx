@@ -1,11 +1,4 @@
-import {
-  Button,
-  Keyboard,
-  Text,
-  TextInput,
-  TouchableHighlight,
-  View,
-} from 'react-native';
+import {Text, TextInput, TouchableHighlight, View} from 'react-native';
 import {FONT_POPPINS} from '../shared/utilities/constants/fonts.constants';
 import {useState} from 'react';
 import {IDynamicObject} from '../shared/interfaces';
@@ -52,19 +45,19 @@ export const SignupComponent = () => {
   };
 
   const checkIfFormIsValid = () => {
-    let formIsValid: boolean = true;
+    let _formIsValid: boolean = true;
     for (const field in userDetails) {
       if (!userDetails[field]) {
-        formIsValid = false;
+        _formIsValid = false;
         break;
       }
     }
 
     // check that the passwords match
     if (userDetails.password !== userDetails.confirmPassword) {
-      formIsValid = false;
+      _formIsValid = false;
     }
-    setFormIsValid(formIsValid);
+    setFormIsValid(_formIsValid);
   };
 
   const onSignupPress = () => {
@@ -92,7 +85,7 @@ export const SignupComponent = () => {
       }}>
       <Text
         style={{fontFamily: FONT_POPPINS.bold, color: 'black', fontSize: 20}}>
-        Your Personal Journal
+        Sign Up
       </Text>
       <View style={{width: '75%', rowGap: 12}}>
         <TextInputComponent
@@ -126,7 +119,7 @@ export const SignupComponent = () => {
               textAlign: 'center',
               justifyContent: 'center',
               borderRadius: 6,
-              opacity: formIsValid ? 1.0 : 0.3,
+              opacity: formIsValid && !isSigningUpUser ? 1.0 : 0.3,
               marginTop: 12,
             },
             text: {
@@ -156,7 +149,7 @@ export const SignupComponent = () => {
             Already a member?
           </Text>
           <TouchableHighlight
-            underlayColor={'blue'}
+            underlayColor={''}
             onPress={() => navigation.navigate('login')}>
             <Text
               style={{
