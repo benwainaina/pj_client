@@ -95,3 +95,11 @@ export const selectUserProfile = createSelector(
   homeState,
   state => state.userProfile,
 );
+
+/**
+ * select whether the user is updating the profile
+ */
+export const selctUserIsUpdatingProfile = createSelector(
+  homeState,
+  state => state.isUpdatingProfile,
+);

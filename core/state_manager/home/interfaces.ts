@@ -83,6 +83,11 @@ export interface IHomeState {
   isUpdatingEntry: boolean;
 
   /**
+   * whether the user is updating their profile
+   */
+  isUpdatingProfile: boolean;
+
+  /**
    * the overlay data
    */
   overlayData: IOverlayData;
@@ -98,6 +103,11 @@ export interface IUserProfile {
    * username
    */
   username: string;
+}
+
+export interface IUpdateProfileModel {
+  username?: string;
+  password?: string;
 }
 
 export interface IOverlayData {

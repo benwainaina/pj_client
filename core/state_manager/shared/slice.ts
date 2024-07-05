@@ -18,9 +18,12 @@ const sharedSlice = createSlice({
     clearAlertData(state, _action) {
       state.alertData = null;
     },
-    setUserToken(state, action: {payload: {userToken: string}}) {
+    setUserToken(
+      state,
+      action: {payload: {userToken: string; isValid: boolean}},
+    ) {
       state.userToken = action.payload.userToken;
-      state.tokenIsValid = true;
+      state.tokenIsValid = action.payload.isValid;
     },
   },
   extraReducers: builder =>

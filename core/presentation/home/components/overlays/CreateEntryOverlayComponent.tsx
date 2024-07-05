@@ -87,9 +87,11 @@ export const CreateEntryOverlayComponent = () => {
   return (
     <View
       style={{
-        width: '90%',
+        width: '100%',
         borderRadius: 6,
         alignSelf: 'center',
+        bottom: 0,
+        position: 'absolute',
       }}>
       <View
         style={{
@@ -97,7 +99,6 @@ export const CreateEntryOverlayComponent = () => {
           width: '100%',
           alignSelf: 'center',
           padding: 24,
-          borderRadius: 6,
           rowGap: 24,
         }}>
         <Text style={{color: 'black', fontFamily: FONT_POPPINS.bold}}>

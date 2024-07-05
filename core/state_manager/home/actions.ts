@@ -3,10 +3,15 @@ import * as UserActionIDs from './action.ids';
 import {IStore} from '../store';
 import {selectUserTokenValue} from '../shared/selectors';
 import {CoreAPIService} from '../api/CoreAPI.service';
-import {IEntry, IEntryFilters} from './interfaces';
-import {setAlertData} from '../shared/slice';
+import {
+  IEntry,
+  IEntryFilters,
+  IUpdateProfileModel,
+  IUserProfile,
+} from './interfaces';
+import {setAlertData, setUserToken} from '../shared/slice';
 import {IAlertData} from '../shared/interfaces';
-import {clearOverlayData} from './slice';
+import {clearOverlayData, setUserProfile} from './slice';
 import {dismissKeyboardUtility} from '../../presentation/shared/utilities/keyboard.utility';
 
 export const getEntryCategories = createAsyncThunk(
@@ -115,6 +120,37 @@ export const deleteUserEntry = createAsyncThunk(
       });
       dispatch<any>(clearOverlayData());
       return {entryId};
+    } catch (error: any) {
+      commonAlertDispatch(
+        {
+          type: 'error',
+          message: 'An error occured!',
+          duration: 2000,
+        },
+        dispatch,
+      );
+      rejectWithValue(error.error);
+    }
+  },
+);
+
+export const actionUpdateProfile = createAsyncThunk(
+  UserActionIDs.IDActionUpdateProfile,
+  async (arg: {payload: IUpdateProfileModel}, api) => {
+    const {payload} = arg;
+    const {rejectWithValue, dispatch, getState} = api;
+    const userToken = selectUserTokenValue(getState() as IStore);
+
+    try {
+      const {data} = await CoreAPIService.post('user/update_profile', {
+        token: userToken,
+        ...payload,
+      });
+      dispatch<any>(clearOverlayData());
+      dispatch<any>(
+        setUserProfile({userProfile: {username: payload.username}}),
+      );
+      dispatch<any>(setUserToken({userToken: '', isValid: false}));
     } catch (error: any) {
       commonAlertDispatch(
         {

@@ -26,10 +26,10 @@ export const DeleteEntryOverlayComponent = ({
       style={{
         backgroundColor: 'white',
         position: 'absolute',
-        width: '80%',
+        width: '100%',
         alignSelf: 'center',
-        borderRadius: 12,
         padding: 12,
+        bottom: 0,
       }}>
       <View style={{rowGap: 12}}>
         <Text

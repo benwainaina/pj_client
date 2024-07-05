@@ -4,6 +4,7 @@ import {selectOverlayData} from '../../../../state_manager/home/selectors';
 import {DeleteEntryOverlayComponent} from './DeleteEntryOverlayComponent';
 import {clearOverlayData} from '../../../../state_manager/home/slice';
 import {CreateEntryOverlayComponent} from './CreateEntryOverlayComponent';
+import {EditProfileOverlayComponent} from './EditProfileOverlayComponent';
 
 export const OverlayComponent = () => {
   /**
@@ -21,6 +22,8 @@ export const OverlayComponent = () => {
         return <DeleteEntryOverlayComponent payload={overlayData.payload} />;
       case 'create':
         return <CreateEntryOverlayComponent />;
+      case 'updateProfile':
+        return <EditProfileOverlayComponent />;
       default:
         return <></>;
     }
@@ -32,27 +35,26 @@ export const OverlayComponent = () => {
         width: '100%',
         height: '100%',
         position: 'absolute',
-        backgroundColor: 'rgba(0,0,0,0.25)',
         display: overlayData?.scope ? 'flex' : 'none',
-        alignItems: 'center',
-        justifyContent: 'center',
       }}>
-      <TouchableHighlight
-        underlayColor={''}
-        onPress={() => dispatch(clearOverlayData())}
-        style={{
-          width: '100%',
-          height: '100%',
-          position: 'absolute',
-        }}>
-        <></>
-      </TouchableHighlight>
       <View
         style={{
-          zIndex: 1,
-          width: '90%',
+          width: '100%',
           display: 'flex',
+          height: '100%',
+          zIndex: 12,
         }}>
+        <TouchableHighlight
+          underlayColor={''}
+          onPress={() => dispatch(clearOverlayData())}
+          style={{
+            width: '100%',
+            height: '100%',
+            position: 'absolute',
+            backgroundColor: 'rgba(0,0,0,0.25)',
+          }}>
+          <></>
+        </TouchableHighlight>
         {componentToRender()}
       </View>
     </View>

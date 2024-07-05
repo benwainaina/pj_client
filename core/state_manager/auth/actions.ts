@@ -44,7 +44,7 @@ export const actionLoginUser = createAsyncThunk(
       const data = (
         await CoreAPIService.post('user/login', {...userCredentials})
       ).data;
-      dispatch<any>(setUserToken({userToken: data.token}));
+      dispatch<any>(setUserToken({userToken: data.token, isValid: true}));
       dispatch<any>(setUserProfile({userProfile: {username: data.username}}));
     } catch (error: any) {
       dispatch(

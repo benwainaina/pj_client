@@ -1,4 +1,4 @@
-import {Button, ScrollView, Text, TouchableHighlight, View} from 'react-native';
+import {ScrollView, Text, TouchableHighlight, View} from 'react-native';
 import {EntriesListComponent} from './components/EntriesFilterComponent';
 import {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
@@ -8,10 +8,8 @@ import {setOverlayData} from '../../state_manager/home/slice';
 import {FONT_POPPINS} from '../shared/utilities/constants/fonts.constants';
 import {
   selectEntriesCategories,
-  selectEntriesFilters,
   selectUserProfile,
 } from '../../state_manager/home/selectors';
-import {ButtonComponent} from '../shared/components/ButtonComponent';
 import EditProfileSvg from '../assets/images/edit_profile.svg';
 import CreateEntrySvg from '../assets/images/add_entry_icon.svg';
 import ChevronDownSvg from '../assets/images/chevron_down.svg';
@@ -52,7 +50,15 @@ export const HomeComponent = () => {
             paddingTop: 12,
             justifyContent: 'space-between',
           }}>
-          <EditProfileSvg width={36} height={36} />
+          <TouchableHighlight
+            underlayColor={''}
+            onPress={() =>
+              dispatch<any>(
+                setOverlayData({overlayData: {scope: 'updateProfile'}}),
+              )
+            }>
+            <EditProfileSvg width={36} height={36} />
+          </TouchableHighlight>
           <Text
             style={{
               fontFamily: FONT_POPPINS.bold,
@@ -97,8 +103,8 @@ const AddEntryButtonComponent = () => {
     <View
       style={{
         position: 'absolute',
-        bottom: 24,
-        right: 24,
+        bottom: 12,
+        right: '42%',
         borderRadius: 50,
         zIndex: 10,
         backgroundColor: 'white',
@@ -249,7 +255,8 @@ const EntryPeriodFilterComponent = () => {
             zIndex: 3,
             width: '100%',
             padding: 12,
-            borderRadius: 12,
+            borderBottomLeftRadius: 12,
+            borderBottomRightRadius: 12,
             rowGap: 12,
           }}>
           {availablePeriods

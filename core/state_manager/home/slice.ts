@@ -7,6 +7,7 @@ import {
 } from './interfaces';
 import {
   actionCreateUserEntry,
+  actionUpdateProfile,
   deleteUserEntry,
   getEntryCategories,
   getUserEntries,
@@ -82,6 +83,15 @@ const homeSlice = createSlice({
       })
       .addCase(actionCreateUserEntry.rejected, (state, action) => {
         state.isCreatingEntry = false;
+      })
+      .addCase(actionUpdateProfile.pending, (state, action) => {
+        state.isUpdatingProfile = true;
+      })
+      .addCase(actionUpdateProfile.fulfilled, (state, action) => {
+        state.isUpdatingProfile = false;
+      })
+      .addCase(actionUpdateProfile.rejected, (state, action) => {
+        state.isUpdatingProfile = false;
       }),
 });
 
