@@ -86,6 +86,18 @@ export interface IHomeState {
    * the overlay data
    */
   overlayData: IOverlayData;
+
+  /**
+   * user profile
+   */
+  userProfile?: IUserProfile;
+}
+
+export interface IUserProfile {
+  /**
+   * username
+   */
+  username: string;
 }
 
 export interface IOverlayData {

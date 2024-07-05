@@ -3,6 +3,7 @@ import * as UserActions from './action.ids';
 import {ISignupUser, IUserCredentails} from './interfaces';
 import {CoreAPIService} from '../api/CoreAPI.service';
 import {setAlertData, setUserToken} from '../shared/slice';
+import {setUserProfile} from '../home/slice';
 
 export const actionSignupUser = createAsyncThunk(
   UserActions.IDActionSignupUser,
@@ -44,6 +45,7 @@ export const actionLoginUser = createAsyncThunk(
         await CoreAPIService.post('user/login', {...userCredentials})
       ).data;
       dispatch<any>(setUserToken({userToken: data.token}));
+      dispatch<any>(setUserProfile({userProfile: {username: data.username}}));
     } catch (error: any) {
       dispatch(
         setAlertData({

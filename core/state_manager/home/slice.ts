@@ -1,5 +1,10 @@
 import {createSlice} from '@reduxjs/toolkit';
-import {IHomeSliceKey, IHomeState, IOverlayData} from './interfaces';
+import {
+  IHomeSliceKey,
+  IHomeState,
+  IOverlayData,
+  IUserProfile,
+} from './interfaces';
 import {
   actionCreateUserEntry,
   deleteUserEntry,
@@ -13,6 +18,9 @@ const initialState: IHomeState = {
   entriesCategories: [],
   isFetchingEntries: false,
   overlayData: {},
+  isCreatingEntry: false,
+  isDeletingEntry: false,
+  isUpdatingEntry: false,
 };
 
 const homeSlice = createSlice({
@@ -24,6 +32,9 @@ const homeSlice = createSlice({
     },
     clearOverlayData(state, action) {
       state.overlayData = {};
+    },
+    setUserProfile(state, action: {payload: {userProfile: IUserProfile}}) {
+      state.userProfile = action.payload.userProfile;
     },
   },
   extraReducers: builder =>
@@ -74,6 +85,7 @@ const homeSlice = createSlice({
       }),
 });
 
-export const {setOverlayData, clearOverlayData} = homeSlice.actions;
+export const {setOverlayData, clearOverlayData, setUserProfile} =
+  homeSlice.actions;
 
 export const homeReducer = homeSlice.reducer;

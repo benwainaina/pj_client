@@ -87,3 +87,11 @@ export const selectIsCreatingEntry = createSelector(
   homeState,
   state => state.isCreatingEntry,
 );
+
+/**
+ * select user profile
+ */
+export const selectUserProfile = createSelector(
+  homeState,
+  state => state.userProfile,
+);

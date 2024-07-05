@@ -9,13 +9,23 @@ import {FONT_POPPINS} from '../shared/utilities/constants/fonts.constants';
 import {
   selectEntriesCategories,
   selectEntriesFilters,
+  selectUserProfile,
 } from '../../state_manager/home/selectors';
 import {ButtonComponent} from '../shared/components/ButtonComponent';
 import EditProfileSvg from '../assets/images/edit_profile.svg';
 import CreateEntrySvg from '../assets/images/add_entry_icon.svg';
+import ChevronDownSvg from '../assets/images/chevron_down.svg';
 
 export const HomeComponent = () => {
+  /**
+   * hooks
+   */
   const dispatch = useDispatch();
+
+  /**
+   * selectors
+   */
+  const userProfile = useSelector(selectUserProfile);
 
   useEffect(() => {
     dispatch(getEntryCategories());
@@ -51,7 +61,7 @@ export const HomeComponent = () => {
               fontSize: 24,
               marginTop: 24,
             }}>
-            Hello benson!
+            Hello {userProfile?.username}!
           </Text>
         </View>
         <View style={{display: 'flex'}}>
@@ -182,9 +192,17 @@ const EntryPeriodFilterComponent = () => {
   /**
    * states
    */
-  const [activePeriod, setActivePeriod] = useState('every day');
+  const [activePeriod, setActivePeriod] = useState('all');
   const [showActivePeriodPicker, setShowActivePeriodPicker] = useState(false);
-  const availablePeriods = ['daily', 'weekly', 'monthly'];
+  const availablePeriods = ['daily', 'weekly', 'monthly', 'all'];
+
+  /**
+   * handler methods
+   */
+  const onPeriodSelected = (period: string) => {
+    setShowActivePeriodPicker(false);
+    setActivePeriod(period);
+  };
 
   return (
     <View
@@ -197,52 +215,59 @@ const EntryPeriodFilterComponent = () => {
         alignItems: 'center',
         columnGap: 16,
       }}>
-      <Text
-        style={{
-          color: 'black',
-          fontFamily: FONT_POPPINS.bold,
-        }}>
-        Period
-      </Text>
-      <View
-        style={{
-          display: 'flex',
-          flexDirection: 'row',
-          columnGap: 8,
-          borderBottomColor: '#ddd',
-          borderBottomWidth: 1,
-        }}>
-        <ButtonComponent
-          title={activePeriod}
-          onPress={() => {}}
+      <TouchableHighlight
+        underlayColor={''}
+        onPress={() => setShowActivePeriodPicker(!showActivePeriodPicker)}>
+        <View
           style={{
-            button: {
-              borderColor: 'white',
-              borderWidth: 2,
-              width: 'auto',
-              backgroundColor: 'white',
-            },
-            text: {
+            display: 'flex',
+            flexDirection: 'row',
+            columnGap: 8,
+            borderBottomColor: '#ddd',
+            borderBottomWidth: 1,
+            alignItems: 'center',
+          }}>
+          <Text
+            style={{
               color: 'black',
               fontFamily: FONT_POPPINS.regular,
               textTransform: 'capitalize',
               fontSize: 12,
-            },
-          }}
-        />
-        <View></View>
-      </View>
+            }}>
+            {activePeriod}
+          </Text>
+          <ChevronDownSvg />
+        </View>
+      </TouchableHighlight>
       {showActivePeriodPicker && (
-        <View>
+        <View
+          style={{
+            position: 'absolute',
+            top: '100%',
+            backgroundColor: 'white',
+            elevation: 7,
+            zIndex: 3,
+            width: '100%',
+            padding: 12,
+            borderRadius: 12,
+            rowGap: 12,
+          }}>
           {availablePeriods
             .filter(period => period !== activePeriod)
             .map((period, index) => (
               <TouchableHighlight
                 key={index}
                 underlayColor={''}
-                onPress={() => {
-                  console.log('period', period);
-                }}></TouchableHighlight>
+                onPress={() => onPeriodSelected(period)}>
+                <Text
+                  style={{
+                    color: 'black',
+                    fontFamily: FONT_POPPINS.bold,
+                    textTransform: 'capitalize',
+                  }}>
+                  {period}
+                </Text>
+              </TouchableHighlight>
             ))}
         </View>
       )}
