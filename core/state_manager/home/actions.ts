@@ -33,7 +33,7 @@ export const getEntryCategories = createAsyncThunk(
   },
 );
 
-export const actionCreateUserEntries = createAsyncThunk(
+export const actionCreateUserEntry = createAsyncThunk(
   UserActionIDs.IDActionCreateEntry,
   async (arg: {entry: IEntry}, api) => {
     const {entry} = arg;

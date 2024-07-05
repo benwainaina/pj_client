@@ -1,5 +1,5 @@
 import {useEffect} from 'react';
-import {Text, View} from 'react-native';
+import {Text, Touchable, TouchableHighlight, View} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {getUserEntries} from '../../../state_manager/home/actions';
 import {
@@ -11,6 +11,9 @@ import {FONT_POPPINS} from '../../shared/utilities/constants/fonts.constants';
 import {IEntry} from '../../../state_manager/home/interfaces';
 import {IDynamicObject} from '../../shared/interfaces';
 import {DeleteEntryComponent} from './DeleteEntryComponent';
+import {Svg, SvgUri} from 'react-native-svg';
+import {ButtonComponent} from '../../shared/components/ButtonComponent';
+import {setOverlayData} from '../../../state_manager/home/slice';
 
 export const EntriesListComponent = () => {
   /**
@@ -38,6 +41,38 @@ export const EntriesListComponent = () => {
       ) : (
         <NoEntriesPresentComponent />
       )}
+      <AddEntryButtonComponent />
+    </View>
+  );
+};
+
+const AddEntryButtonComponent = () => {
+  /**
+   * hooks
+   */
+  const dispatch = useDispatch();
+
+  /**
+   * handler methods
+   */
+  const createEntry = () => {
+    dispatch<any>(setOverlayData({overlayData: {scope: 'create'}}));
+  };
+
+  return (
+    <View
+      style={{
+        position: 'absolute',
+        bottom: 24,
+        right: 24,
+        padding: 12,
+        borderRadius: 50,
+      }}>
+      <TouchableHighlight underlayColor={''} onPress={() => createEntry()}>
+        <Text style={{color: 'black', fontFamily: FONT_POPPINS.bold}}>
+          Create
+        </Text>
+      </TouchableHighlight>
     </View>
   );
 };

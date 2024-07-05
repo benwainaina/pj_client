@@ -1,8 +1,9 @@
-import {TouchableHighlight} from 'react-native';
+import {TouchableHighlight, View} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {selectOverlayData} from '../../../../state_manager/home/selectors';
 import {DeleteEntryOverlayComponent} from './DeleteEntryOverlayComponent';
 import {clearOverlayData} from '../../../../state_manager/home/slice';
+import {CreateEntryOverlayComponent} from './CreateEntryOverlayComponent';
 
 export const OverlayComponent = () => {
   /**
@@ -18,23 +19,42 @@ export const OverlayComponent = () => {
     switch (overlayData?.scope) {
       case 'delete':
         return <DeleteEntryOverlayComponent payload={overlayData.payload} />;
+      case 'create':
+        return <CreateEntryOverlayComponent />;
       default:
         return <></>;
     }
   };
 
   return (
-    <TouchableHighlight
-      underlayColor={''}
-      onPress={() => dispatch(clearOverlayData())}
+    <View
       style={{
-        display: overlayData?.scope ? 'flex' : 'none',
-        backgroundColor: 'rgba(0,0,0,0.25)',
         width: '100%',
         height: '100%',
         position: 'absolute',
+        backgroundColor: 'rgba(0,0,0,0.25)',
+        display: overlayData?.scope ? 'flex' : 'none',
+        alignItems: 'center',
+        justifyContent: 'center',
       }}>
-      {componentToRender()}
-    </TouchableHighlight>
+      <TouchableHighlight
+        underlayColor={''}
+        onPress={() => dispatch(clearOverlayData())}
+        style={{
+          width: '100%',
+          height: '100%',
+          position: 'absolute',
+        }}>
+        <></>
+      </TouchableHighlight>
+      <View
+        style={{
+          zIndex: 1,
+          width: '90%',
+          display: 'flex',
+        }}>
+        {componentToRender()}
+      </View>
+    </View>
   );
 };

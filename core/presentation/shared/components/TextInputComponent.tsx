@@ -5,10 +5,12 @@ export const TextInputComponent = ({
   placeholder,
   onNewValue,
   isSecure,
+  defaultValue,
 }: {
   placeholder: string;
   onNewValue: any;
   isSecure: boolean;
+  defaultValue?: string;
 }) => {
   return (
     <TextInput
@@ -27,6 +29,7 @@ export const TextInputComponent = ({
       }}
       placeholder={placeholder}
       onChangeText={value => onNewValue(value)}
+      value={defaultValue}
     />
   );
 };
