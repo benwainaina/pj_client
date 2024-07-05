@@ -18,7 +18,11 @@ import {
 } from '../../../../state_manager/home/actions';
 import {dismissKeyboardUtility} from '../../../shared/utilities/keyboard.utility';
 
-export const CreateEntryOverlayComponent = ({entry}: {entry?: IEntry}) => {
+export const CreateOrUpdateEntryOverlayComponent = ({
+  entry,
+}: {
+  entry?: IEntry;
+}) => {
   /**
    * hooks
    */

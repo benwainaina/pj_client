@@ -103,6 +103,7 @@ export const actionUpdateUserEntry = createAsyncThunk(
       );
       dismissKeyboardUtility();
       dispatch<any>(clearOverlayData({}));
+      entry.date = entry.date.toString();
       return {entry, category: entry.createCategory ? data.category : null};
     } catch (error: any) {
       commonAlertDispatch(

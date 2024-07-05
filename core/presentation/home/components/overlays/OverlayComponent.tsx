@@ -3,9 +3,8 @@ import {useDispatch, useSelector} from 'react-redux';
 import {selectOverlayData} from '../../../../state_manager/home/selectors';
 import {DeleteEntryOverlayComponent} from './DeleteEntryOverlayComponent';
 import {clearOverlayData} from '../../../../state_manager/home/slice';
-import {CreateEntryOverlayComponent} from './CreateEntryOverlayComponent';
+import {CreateOrUpdateEntryOverlayComponent} from './CreateOrUpdateEntryOverlayComponent';
 import {EditProfileOverlayComponent} from './EditProfileOverlayComponent';
-import {EditEntryOverlayComponent} from './EditEntryOverlayComponent';
 
 export const OverlayComponent = () => {
   /**
@@ -22,11 +21,12 @@ export const OverlayComponent = () => {
       case 'delete':
         return <DeleteEntryOverlayComponent payload={overlayData.payload} />;
       case 'create':
-        return <CreateEntryOverlayComponent />;
+      case 'edit':
+        return (
+          <CreateOrUpdateEntryOverlayComponent entry={overlayData.payload} />
+        );
       case 'updateProfile':
         return <EditProfileOverlayComponent />;
-      case 'edit':
-        return <CreateEntryOverlayComponent entry={overlayData.payload} />;
       default:
         return <></>;
     }
