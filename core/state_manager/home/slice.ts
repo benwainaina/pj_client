@@ -22,6 +22,7 @@ const initialState: IHomeState = {
   isCreatingEntry: false,
   isDeletingEntry: false,
   isUpdatingEntry: false,
+  isUpdatingProfile: false,
 };
 
 const homeSlice = createSlice({
@@ -36,6 +37,16 @@ const homeSlice = createSlice({
     },
     setUserProfile(state, action: {payload: {userProfile: IUserProfile}}) {
       state.userProfile = action.payload.userProfile;
+    },
+    editFilterField(
+      state,
+      action: {payload: {filterField: string; filterFieldValue: any}},
+    ) {
+      if (!state.filters) {
+        state.filters = {};
+      }
+      const {filterField, filterFieldValue} = action.payload;
+      state.filters[filterField] = filterFieldValue;
     },
   },
   extraReducers: builder =>
@@ -95,7 +106,11 @@ const homeSlice = createSlice({
       }),
 });
 
-export const {setOverlayData, clearOverlayData, setUserProfile} =
-  homeSlice.actions;
+export const {
+  setOverlayData,
+  clearOverlayData,
+  setUserProfile,
+  editFilterField,
+} = homeSlice.actions;
 
 export const homeReducer = homeSlice.reducer;

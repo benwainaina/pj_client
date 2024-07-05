@@ -13,6 +13,8 @@ import {setAlertData, setUserToken} from '../shared/slice';
 import {IAlertData} from '../shared/interfaces';
 import {clearOverlayData, setUserProfile} from './slice';
 import {dismissKeyboardUtility} from '../../presentation/shared/utilities/keyboard.utility';
+import {datePeriodFormatterUtility} from '../../presentation/shared/utilities/datePeriodFormatter.utility';
+import {shallowCopyUtility} from '../../presentation/shared/utilities/shallowCopy.utility';
 
 export const getEntryCategories = createAsyncThunk(
   UserActionIDs.IDActionGetEntryCategories,
@@ -87,9 +89,15 @@ export const getUserEntries = createAsyncThunk(
     const userToken = selectUserTokenValue(getState() as IStore);
 
     try {
+      const _filters = shallowCopyUtility(filters);
+      if (_filters.period) {
+        if (_filters.period !== 'all') {
+          _filters.period = datePeriodFormatterUtility(_filters.period);
+        }
+      }
       const {data} = await CoreAPIService.post('entry/filter', {
         token: userToken,
-        filter_fields: filters,
+        filter_fields: _filters,
       });
       return {entries: data.data};
     } catch (error: any) {

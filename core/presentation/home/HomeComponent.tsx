@@ -4,7 +4,7 @@ import {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {getEntryCategories} from '../../state_manager/home/actions';
 import {OverlayComponent} from './components/overlays/OverlayComponent';
-import {setOverlayData} from '../../state_manager/home/slice';
+import {editFilterField, setOverlayData} from '../../state_manager/home/slice';
 import {FONT_POPPINS} from '../shared/utilities/constants/fonts.constants';
 import {
   selectEntriesCategories,
@@ -13,6 +13,8 @@ import {
 import EditProfileSvg from '../assets/images/edit_profile.svg';
 import CreateEntrySvg from '../assets/images/add_entry_icon.svg';
 import ChevronDownSvg from '../assets/images/chevron_down.svg';
+import {datePeriodFormatterUtility} from '../shared/utilities/datePeriodFormatter.utility';
+import {IPeriod} from '../shared/interfaces';
 
 export const HomeComponent = () => {
   /**
@@ -75,7 +77,12 @@ export const HomeComponent = () => {
           <EntryFiltersListComponent />
         </View>
       </View>
-      <View style={{flex: 2, overflow: 'scroll'}}>
+      <View
+        style={{
+          flex: 2,
+          overflow: 'scroll',
+          height: '100%',
+        }}>
         <ScrollView>
           <EntriesListComponent />
         </ScrollView>
@@ -124,6 +131,11 @@ const AddEntryButtonComponent = () => {
 
 const EntryFiltersListComponent = () => {
   /**
+   * hooks
+   */
+  const dispatch = useDispatch();
+
+  /**
    * states
    */
   const [activeCategory, setActiveCategory] = useState('all');
@@ -138,6 +150,12 @@ const EntryFiltersListComponent = () => {
    */
   const onActiveCategorySet = (_activeCategory: string) => {
     setActiveCategory(_activeCategory);
+    dispatch<any>(
+      editFilterField({
+        filterField: 'category',
+        filterFieldValue: _activeCategory,
+      }),
+    );
   };
 
   return (
@@ -196,6 +214,11 @@ const EntryFiltersListComponent = () => {
 
 const EntryPeriodFilterComponent = () => {
   /**
+   * hooks
+   */
+  const dispatch = useDispatch();
+
+  /**
    * states
    */
   const [activePeriod, setActivePeriod] = useState('all');
@@ -205,9 +228,15 @@ const EntryPeriodFilterComponent = () => {
   /**
    * handler methods
    */
-  const onPeriodSelected = (period: string) => {
+  const onPeriodSelected = (period: IPeriod) => {
     setShowActivePeriodPicker(false);
     setActivePeriod(period);
+    dispatch<any>(
+      editFilterField({
+        filterField: 'period',
+        filterFieldValue: period,
+      }),
+    );
   };
 
   return (

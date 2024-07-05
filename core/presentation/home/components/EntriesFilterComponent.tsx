@@ -1,8 +1,9 @@
 import {useEffect} from 'react';
-import {Text, Touchable, TouchableHighlight, View} from 'react-native';
+import {Text, View} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {getUserEntries} from '../../../state_manager/home/actions';
 import {
+  selectEntriesFilters,
   selectIsFetchingEntries,
   selectKVEntriesCategories,
   selectUserEntries,
@@ -11,9 +12,7 @@ import {FONT_POPPINS} from '../../shared/utilities/constants/fonts.constants';
 import {IEntry} from '../../../state_manager/home/interfaces';
 import {IDynamicObject} from '../../shared/interfaces';
 import {DeleteEntryComponent} from './DeleteEntryComponent';
-import {Svg, SvgUri} from 'react-native-svg';
-import {ButtonComponent} from '../../shared/components/ButtonComponent';
-import {setOverlayData} from '../../../state_manager/home/slice';
+
 import {dateFormatterUtility} from '../../shared/utilities/dateFormatter.utility';
 
 export const EntriesListComponent = () => {
@@ -27,6 +26,7 @@ export const EntriesListComponent = () => {
    */
   const isFetchingEntries = useSelector(selectIsFetchingEntries);
   const entries = useSelector(selectUserEntries);
+  const filters = useSelector(selectEntriesFilters);
 
   /**
    * effects
@@ -35,8 +35,19 @@ export const EntriesListComponent = () => {
     dispatch<any>(getUserEntries({filters: {}}));
   }, []);
 
+  useEffect(() => {
+    dispatch<any>(getUserEntries({filters}));
+  }, [filters]);
+
   return (
-    <View style={{height: '100%', width: '100%'}}>
+    <View
+      style={{
+        display: 'flex',
+        height: '100%',
+        width: '100%',
+        padding: 12,
+        position: 'relative',
+      }}>
       {entries?.length ? (
         <EntriesPresentComponent entries={entries} />
       ) : (
@@ -55,10 +66,17 @@ const NoEntriesPresentComponent = () => {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
+        marginTop: 32,
       }}>
       <Text
-        style={{color: 'black', fontFamily: FONT_POPPINS.bold, fontSize: 16}}>
-        You have not journalled anything yet!
+        style={{
+          color: 'black',
+          fontFamily: FONT_POPPINS.bold,
+          fontSize: 16,
+          width: '80%',
+          textAlign: 'center',
+        }}>
+        You have not journalled anything here yet!
       </Text>
     </View>
   );
