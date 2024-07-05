@@ -43,9 +43,11 @@ export const selectKVEntriesCategories = createSelector(
   selectEntriesCategories,
   categories => {
     const _categories: {[categoryId: string]: string} = {};
-    categories.forEach(category => {
-      _categories[category.uuid] = category.name;
-    });
+    categories
+      .filter(category => category)
+      .forEach(category => {
+        _categories[category.uuid] = category.name;
+      });
     return _categories;
   },
 );
@@ -76,4 +78,12 @@ export const selectEntryFromEntries = createSelector(
   selectUserEntries,
   entriesList => (entryId: string) =>
     entriesList.find(entry => entry.uuid === entryId),
+);
+
+/**
+ * select is creating entry
+ */
+export const selectIsCreatingEntry = createSelector(
+  homeState,
+  state => state.isCreatingEntry,
 );

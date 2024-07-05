@@ -26,7 +26,6 @@ export const DeleteEntryOverlayComponent = ({
       style={{
         backgroundColor: 'white',
         position: 'absolute',
-        bottom: 24,
         width: '80%',
         alignSelf: 'center',
         borderRadius: 12,

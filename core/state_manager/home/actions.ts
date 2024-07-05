@@ -7,6 +7,7 @@ import {IEntry, IEntryFilters} from './interfaces';
 import {setAlertData} from '../shared/slice';
 import {IAlertData} from '../shared/interfaces';
 import {clearOverlayData} from './slice';
+import {dismissKeyboardUtility} from '../../presentation/shared/utilities/keyboard.utility';
 
 export const getEntryCategories = createAsyncThunk(
   UserActionIDs.IDActionGetEntryCategories,
@@ -37,17 +38,28 @@ export const actionCreateUserEntry = createAsyncThunk(
   UserActionIDs.IDActionCreateEntry,
   async (arg: {entry: IEntry}, api) => {
     const {entry} = arg;
-    const {rejectWithValue, dispatch} = api;
+    const {rejectWithValue, dispatch, getState} = api;
+    const userToken = selectUserTokenValue(getState() as IStore);
 
     try {
+      const {data} = await CoreAPIService.post('entry/create_entry', {
+        token: userToken,
+        ...entry,
+      });
       commonAlertDispatch(
         {
           type: 'success',
           message: 'Your entry has been added!',
-          duration: 1000,
+          duration: 2000,
         },
         dispatch,
       );
+      dismissKeyboardUtility();
+      dispatch<any>(clearOverlayData());
+      return {
+        entry: {...entry, uuid: data.entry_uuid},
+        category: data.category,
+      };
     } catch (error: any) {
       commonAlertDispatch(
         {

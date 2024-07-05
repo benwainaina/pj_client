@@ -1,16 +1,26 @@
 import {Text, TextInput, TouchableHighlight, View} from 'react-native';
 import {FONT_POPPINS} from '../../../shared/utilities/constants/fonts.constants';
 import {TextInputComponent} from '../../../shared/components/TextInputComponent';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {selectEntriesCategories} from '../../../../state_manager/home/selectors';
 import {useEffect, useState} from 'react';
-import {IEntryCategory} from '../../../../state_manager/home/interfaces';
+import {
+  IEntry,
+  IEntryCategory,
+} from '../../../../state_manager/home/interfaces';
 import {ButtonComponent} from '../../../shared/components/ButtonComponent';
 import {IDynamicObject} from '../../../shared/interfaces';
 import DatePicker from 'react-native-date-picker';
 import {dateFormatterUtility} from '../../../shared/utilities/dateFormatter.utility';
+import {actionCreateUserEntry} from '../../../../state_manager/home/actions';
+import {dismissKeyboardUtility} from '../../../shared/utilities/keyboard.utility';
 
 export const CreateEntryOverlayComponent = () => {
+  /**
+   * hooks
+   */
+  const dispatch = useDispatch();
+
   /**
    * states
    */
@@ -34,6 +44,7 @@ export const CreateEntryOverlayComponent = () => {
   const onCategorySearch = (searchText: string) => {
     setCategorySearchText(searchText);
     setCategory(searchText);
+    setIsSelected(false);
     if (searchText) {
       setShowCategories(true);
     } else {
@@ -57,21 +68,20 @@ export const CreateEntryOverlayComponent = () => {
   };
 
   const validateEntryForm = () => {
-    console.log('entryForm', entryForm);
     let _formIsValid = true;
     for (const field in entryForm) {
       if (!entryForm[field]) {
         _formIsValid = false;
-        console.log('breaking');
         break;
       }
     }
-    console.log('_formIsValid', _formIsValid);
     setFormIsValid(_formIsValid);
   };
 
   const onSubmitCreateJournal = () => {
-    console.log('entryform', entryForm);
+    entryForm['createCategory'] = !isSelected;
+    dispatch<any>(actionCreateUserEntry({entry: entryForm as IEntry}));
+    dismissKeyboardUtility();
   };
 
   return (
@@ -94,7 +104,7 @@ export const CreateEntryOverlayComponent = () => {
           Create An Entry
         </Text>
         <View style={{rowGap: 12}}>
-          <View>
+          <View style={{position: 'relative', zIndex: 1}}>
             <TextInputComponent
               placeholder="Category"
               onNewValue={searchText => onCategorySearch(searchText)}
@@ -206,7 +216,7 @@ const EntryCategoriesListComponent = ({
   //   TODO filter categories based on the search key
   useEffect(() => {
     const filtered = entriesCategories.filter(category =>
-      category.name.toLowerCase().includes(searchText),
+      category?.name?.toLowerCase().includes(searchText),
     );
     setFilteredEntriesCategories(filtered);
   }, [searchText]);
@@ -214,9 +224,10 @@ const EntryCategoriesListComponent = ({
   return (
     <View
       style={{
+        display: filteredEntriesCategories.length ? 'flex' : 'none',
         backgroundColor: 'white',
         position: 'absolute',
-        bottom: -48,
+        top: '100%',
         zIndex: 1,
         width: '100%',
         elevation: 2,
@@ -228,7 +239,6 @@ const EntryCategoriesListComponent = ({
           key={category.uuid}
           underlayColor={''}
           onPress={() => {
-            console.log('category', category.uuid);
             onPickCategory(category);
           }}>
           <Text

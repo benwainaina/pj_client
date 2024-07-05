@@ -23,6 +23,11 @@ export interface IEntry {
    * date the entry was added
    */
   date: string;
+
+  /**
+   * whether or not the category which may be new will be created
+   */
+  createCategory: boolean;
 }
 
 export interface IEntryCategory {
@@ -66,6 +71,16 @@ export interface IHomeState {
    * whether an entry is being deleted
    */
   isDeletingEntry: boolean;
+
+  /**
+   * whether an entry is being created
+   */
+  isCreatingEntry: boolean;
+
+  /**
+   * whether an entry is being updated
+   */
+  isUpdatingEntry: boolean;
 
   /**
    * the overlay data

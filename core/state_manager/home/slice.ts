@@ -1,6 +1,11 @@
 import {createSlice} from '@reduxjs/toolkit';
 import {IHomeSliceKey, IHomeState, IOverlayData} from './interfaces';
-import {deleteUserEntry, getEntryCategories, getUserEntries} from './actions';
+import {
+  actionCreateUserEntry,
+  deleteUserEntry,
+  getEntryCategories,
+  getUserEntries,
+} from './actions';
 
 const initialState: IHomeState = {
   filters: {},
@@ -47,6 +52,23 @@ const homeSlice = createSlice({
       })
       .addCase(deleteUserEntry.rejected, (state, action) => {
         state.isDeletingEntry = false;
+      })
+      .addCase(actionCreateUserEntry.pending, (state, action) => {
+        state.isCreatingEntry = true;
+      })
+      .addCase(actionCreateUserEntry.fulfilled, (state, action) => {
+        state.isCreatingEntry = false;
+        if (action.payload?.entry) {
+          action.payload.entry.date = action.payload.entry.date.toString();
+          state.entries = [...state.entries, action.payload?.entry];
+        }
+        state.entriesCategories = [
+          ...state.entriesCategories,
+          action.payload?.category,
+        ];
+      })
+      .addCase(actionCreateUserEntry.rejected, (state, action) => {
+        state.isCreatingEntry = false;
       }),
 });
 

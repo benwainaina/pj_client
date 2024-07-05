@@ -14,6 +14,7 @@ import {DeleteEntryComponent} from './DeleteEntryComponent';
 import {Svg, SvgUri} from 'react-native-svg';
 import {ButtonComponent} from '../../shared/components/ButtonComponent';
 import {setOverlayData} from '../../../state_manager/home/slice';
+import {dateFormatterUtility} from '../../shared/utilities/dateFormatter.utility';
 
 export const EntriesListComponent = () => {
   /**
@@ -35,7 +36,7 @@ export const EntriesListComponent = () => {
   }, []);
 
   return (
-    <View>
+    <View style={{height: '100%', width: '100%'}}>
       {entries?.length ? (
         <EntriesPresentComponent entries={entries} />
       ) : (
@@ -148,7 +149,7 @@ const EntryComponent = ({
           {entry.title}
         </Text>
         <Text style={{color: 'black', fontFamily: FONT_POPPINS.bold}}>
-          {entry.date}
+          {dateFormatterUtility(entry.date, 'dddd DD MMMM YYYY')}
         </Text>
       </View>
       <View
