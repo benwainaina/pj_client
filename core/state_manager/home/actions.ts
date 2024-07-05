@@ -58,7 +58,7 @@ export const actionCreateUserEntry = createAsyncThunk(
       dispatch<any>(clearOverlayData());
       return {
         entry: {...entry, uuid: data.entry_uuid},
-        category: data.category,
+        category: entry.createCategory ? data.category : null,
       };
     } catch (error: any) {
       commonAlertDispatch(

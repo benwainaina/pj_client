@@ -62,10 +62,12 @@ const homeSlice = createSlice({
           action.payload.entry.date = action.payload.entry.date.toString();
           state.entries = [...state.entries, action.payload?.entry];
         }
-        state.entriesCategories = [
-          ...state.entriesCategories,
-          action.payload?.category,
-        ];
+        if (action.payload?.category) {
+          state.entriesCategories = [
+            ...state.entriesCategories,
+            action.payload?.category,
+          ];
+        }
       })
       .addCase(actionCreateUserEntry.rejected, (state, action) => {
         state.isCreatingEntry = false;

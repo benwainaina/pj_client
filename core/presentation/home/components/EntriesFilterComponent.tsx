@@ -42,38 +42,6 @@ export const EntriesListComponent = () => {
       ) : (
         <NoEntriesPresentComponent />
       )}
-      <AddEntryButtonComponent />
-    </View>
-  );
-};
-
-const AddEntryButtonComponent = () => {
-  /**
-   * hooks
-   */
-  const dispatch = useDispatch();
-
-  /**
-   * handler methods
-   */
-  const createEntry = () => {
-    dispatch<any>(setOverlayData({overlayData: {scope: 'create'}}));
-  };
-
-  return (
-    <View
-      style={{
-        position: 'absolute',
-        bottom: 24,
-        right: 24,
-        padding: 12,
-        borderRadius: 50,
-      }}>
-      <TouchableHighlight underlayColor={''} onPress={() => createEntry()}>
-        <Text style={{color: 'black', fontFamily: FONT_POPPINS.bold}}>
-          Create
-        </Text>
-      </TouchableHighlight>
     </View>
   );
 };
@@ -110,11 +78,12 @@ const EntriesPresentComponent = ({entries}: {entries: Array<IEntry>}) => {
         alignItems: 'center',
         justifyContent: 'center',
       }}>
-      {entries.map(entry => (
+      {entries.map((entry, index) => (
         <EntryComponent
           key={entry.uuid}
           entry={entry}
           categories={categories}
+          isLastOfType={index === entries.length - 1}
         />
       ))}
     </View>
@@ -124,9 +93,11 @@ const EntriesPresentComponent = ({entries}: {entries: Array<IEntry>}) => {
 const EntryComponent = ({
   entry,
   categories,
+  isLastOfType,
 }: {
   entry: IEntry;
   categories: IDynamicObject;
+  isLastOfType: boolean;
 }) => {
   return (
     <View
@@ -137,6 +108,7 @@ const EntryComponent = ({
         elevation: 12,
         borderRadius: 12,
         rowGap: 12,
+        marginBottom: isLastOfType ? 24 : 0,
       }}>
       <View
         style={{
