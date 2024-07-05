@@ -9,15 +9,15 @@
 import {persistReducer} from 'redux-persist';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import hardSet from 'redux-persist/lib/stateReconciler/hardSet';
-import {IAuthSliceKey} from './interfaces';
-import {authReducer} from './slice';
+import {IHomeSliceKey} from './interfaces';
+import {homeReducer} from './slice';
 
-export const authPersistReducer = persistReducer(
+export const homePersistReducer = persistReducer(
   {
-    key: IAuthSliceKey,
+    key: IHomeSliceKey,
     storage: AsyncStorage,
     whitelist: [''],
     stateReconciler: hardSet,
   },
-  authReducer,
+  homeReducer,
 );

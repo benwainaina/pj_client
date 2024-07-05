@@ -6,9 +6,10 @@ const sharedState = (state: IStore) => state.sharedStateSlice;
 /**
  * whether token is being validated
  */
-export const selectIsValidatingToken = createSelector(sharedState, state => {
-  return state.tokenIsValidating;
-});
+export const selectIsValidatingToken = createSelector(
+  sharedState,
+  state => state.tokenIsValidating,
+);
 
 /**
  * get the token validity

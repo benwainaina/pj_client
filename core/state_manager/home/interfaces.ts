@@ -1,0 +1,81 @@
+export interface IEntry {
+  /**
+   * title for the entry
+   */
+  title: string;
+
+  /**
+   * content for the entry
+   */
+  content: string;
+
+  /**
+   * category to which the entry belongs, as an id
+   */
+  category: string;
+
+  /**
+   * entry id
+   */
+  uuid: string;
+
+  /**
+   * date the entry was added
+   */
+  date: string;
+}
+
+export interface IEntryCategory {
+  /**
+   * a label for the category, for example Personal
+   */
+  name: string;
+
+  /**
+   * the id of the category
+   */
+  uuid: string;
+}
+
+export interface IEntryFilters {
+  [filterField: string]: any;
+}
+
+export interface IHomeState {
+  /**
+   * active filtes
+   */
+  filters: IEntryFilters;
+
+  /**
+   * list of entries
+   */
+  entries: Array<IEntry>;
+
+  /**
+   * the list of available category filters
+   */
+  entriesCategories: Array<IEntryCategory>;
+
+  /**
+   * status for fetching entries
+   */
+  isFetchingEntries: boolean;
+
+  /**
+   * whether an entry is being deleted
+   */
+  isDeletingEntry: boolean;
+
+  /**
+   * the overlay data
+   */
+  overlayData: IOverlayData;
+}
+
+export interface IOverlayData {
+  scope?: 'delete' | 'create' | 'edit' | 'updateProfile';
+  payload?: any;
+}
+
+export const IHomeSliceKey = 'homeStateSlice';

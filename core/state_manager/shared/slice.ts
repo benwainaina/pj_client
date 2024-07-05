@@ -1,6 +1,6 @@
 import {createSlice} from '@reduxjs/toolkit';
 import {IAlertData, ISharedSliceKey, ISharedState} from './interfaces';
-import {actionValidateToken} from '../home/actions';
+import {actionValidateToken} from './actions';
 
 const initialState: ISharedState = {
   alertData: {},

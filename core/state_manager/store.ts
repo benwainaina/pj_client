@@ -19,10 +19,13 @@ import {
 import {sharedPersistReducer} from './shared/reducers.config';
 import {IAuthSliceKey, IAuthState} from './auth/interfaces';
 import {authPersistReducer} from './auth/reducers.config';
+import {IHomeSliceKey, IHomeState} from './home/interfaces';
+import {homePersistReducer} from './home/reducers.config';
 
 export interface IStore {
   [ISharedSliceKey]: ISharedState;
   [IAuthSliceKey]: IAuthState;
+  [IHomeSliceKey]: IHomeState;
 }
 
 export let STORE = configureStore({
@@ -47,6 +50,7 @@ export let STORE = configureStore({
     combineReducers({
       [ISharedSliceKey]: sharedPersistReducer,
       [IAuthSliceKey]: authPersistReducer,
+      [IHomeSliceKey]: homePersistReducer,
     }),
   ),
   middleware: getDefaultMiddleware =>

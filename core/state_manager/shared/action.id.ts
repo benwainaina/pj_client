@@ -1,1 +1,1 @@
-export const IDActionSetUserToken = 'Set the user token into the state';
+export const IDActionValidateToken = 'Validate a user token';
