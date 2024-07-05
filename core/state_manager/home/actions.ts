@@ -62,11 +62,48 @@ export const actionCreateUserEntry = createAsyncThunk(
         dispatch,
       );
       dismissKeyboardUtility();
-      dispatch<any>(clearOverlayData());
+      dispatch<any>(clearOverlayData({}));
       return {
         entry: {...entry, uuid: data.entry_uuid},
         category: entry.createCategory ? data.category : null,
       };
+    } catch (error: any) {
+      commonAlertDispatch(
+        {
+          type: 'error',
+          message: 'An error occured!',
+          duration: 2000,
+        },
+        dispatch,
+      );
+      rejectWithValue(error.error);
+    }
+  },
+);
+
+export const actionUpdateUserEntry = createAsyncThunk(
+  UserActionIDs.IDActionUpdateEntry,
+  async (arg: {entry: IEntry}, api) => {
+    const {entry} = arg;
+    const {rejectWithValue, dispatch, getState} = api;
+    const userToken = selectUserTokenValue(getState() as IStore);
+
+    try {
+      const {data} = await CoreAPIService.post('entry/update_entry', {
+        token: userToken,
+        ...entry,
+      });
+      commonAlertDispatch(
+        {
+          type: 'success',
+          message: 'Your entry has been updated!',
+          duration: 2000,
+        },
+        dispatch,
+      );
+      dismissKeyboardUtility();
+      dispatch<any>(clearOverlayData({}));
+      return {entry, category: entry.createCategory ? data.category : null};
     } catch (error: any) {
       commonAlertDispatch(
         {

@@ -4,6 +4,7 @@ export const IDActionGetEntryCategories =
 export const IDActionCreateEntryCategory = 'Create an entry category';
 export const IDActionGetEntries = 'Get user entries';
 export const IDActionCreateEntry = 'Create a user entry';
+export const IDActionUpdateEntry = 'Udpate a user entry';
 export const IDActionDeleteEntry = 'Delete a user entry';
 export const IDActionFilterEntries = 'Filter user entries';
 export const IDActionUpdateProfile = 'Update the user profile';

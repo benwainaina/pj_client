@@ -8,6 +8,7 @@ import {
 import {
   actionCreateUserEntry,
   actionUpdateProfile,
+  actionUpdateUserEntry,
   deleteUserEntry,
   getEntryCategories,
   getUserEntries,
@@ -94,6 +95,34 @@ const homeSlice = createSlice({
       })
       .addCase(actionCreateUserEntry.rejected, (state, action) => {
         state.isCreatingEntry = false;
+      })
+      .addCase(actionUpdateUserEntry.pending, (state, action) => {
+        state.isUpdatingEntry = true;
+      })
+      .addCase(actionUpdateUserEntry.fulfilled, (state, action) => {
+        if (action.payload?.entry) {
+          state.entries = state.entries.map(storedEntry => {
+            if (storedEntry.uuid === action.payload?.entry.uuid) {
+              storedEntry.category = action.payload.category
+                ? action.payload.category.uuid
+                : action.payload.entry.category;
+              storedEntry.title = action.payload.entry.title;
+              storedEntry.content = action.payload.entry.content;
+              storedEntry.date = action.payload.entry.date;
+            }
+            return storedEntry;
+          });
+        }
+        if (action.payload?.category) {
+          state.entriesCategories = [
+            ...state.entriesCategories,
+            action.payload?.category,
+          ];
+        }
+        state.isUpdatingEntry = false;
+      })
+      .addCase(actionUpdateUserEntry.rejected, (state, action) => {
+        state.isUpdatingEntry = false;
       })
       .addCase(actionUpdateProfile.pending, (state, action) => {
         state.isUpdatingProfile = true;

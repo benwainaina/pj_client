@@ -5,6 +5,7 @@ import {DeleteEntryOverlayComponent} from './DeleteEntryOverlayComponent';
 import {clearOverlayData} from '../../../../state_manager/home/slice';
 import {CreateEntryOverlayComponent} from './CreateEntryOverlayComponent';
 import {EditProfileOverlayComponent} from './EditProfileOverlayComponent';
+import {EditEntryOverlayComponent} from './EditEntryOverlayComponent';
 
 export const OverlayComponent = () => {
   /**
@@ -24,6 +25,8 @@ export const OverlayComponent = () => {
         return <CreateEntryOverlayComponent />;
       case 'updateProfile':
         return <EditProfileOverlayComponent />;
+      case 'edit':
+        return <CreateEntryOverlayComponent entry={overlayData.payload} />;
       default:
         return <></>;
     }

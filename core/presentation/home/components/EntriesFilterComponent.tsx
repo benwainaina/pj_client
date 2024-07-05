@@ -1,5 +1,5 @@
 import {useEffect} from 'react';
-import {Text, View} from 'react-native';
+import {Text, TouchableHighlight, View} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {getUserEntries} from '../../../state_manager/home/actions';
 import {
@@ -14,6 +14,7 @@ import {IDynamicObject} from '../../shared/interfaces';
 import {DeleteEntryComponent} from './DeleteEntryComponent';
 
 import {dateFormatterUtility} from '../../shared/utilities/dateFormatter.utility';
+import {setOverlayData} from '../../../state_manager/home/slice';
 
 export const EntriesListComponent = () => {
   /**
@@ -117,58 +118,81 @@ const EntryComponent = ({
   categories: IDynamicObject;
   isLastOfType: boolean;
 }) => {
+  /**
+   * hooks
+   */
+  const dispatch = useDispatch();
+
   return (
-    <View
-      style={{
-        width: '90%',
-        padding: 12,
-        backgroundColor: 'white',
-        elevation: 12,
-        borderRadius: 12,
-        rowGap: 12,
-        marginBottom: isLastOfType ? 24 : 0,
-      }}>
+    <TouchableHighlight
+      style={{width: '100%', alignItems: 'center'}}
+      underlayColor={'white'}
+      onPress={() =>
+        dispatch<ny>(
+          setOverlayData({overlayData: {scope: 'edit', payload: entry}}),
+        )
+      }>
       <View
         style={{
-          flexDirection: 'row',
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-        }}>
-        <Text style={{color: 'black', fontFamily: FONT_POPPINS.bold}}>
-          {entry.title}
-        </Text>
-        <Text style={{color: 'black', fontFamily: FONT_POPPINS.bold}}>
-          {dateFormatterUtility(entry.date, 'dddd DD MMMM YYYY')}
-        </Text>
-      </View>
-      <View
-        style={{
-          display: 'flex',
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          alignItems: 'center',
+          width: '90%',
+          padding: 12,
+          backgroundColor: 'white',
+          elevation: 12,
+          borderRadius: 12,
+          rowGap: 24,
+          marginBottom: isLastOfType ? 24 : 0,
         }}>
         <View
           style={{
-            width: 'fit-content',
-            backgroundColor: 'black',
-            paddingHorizontal: 12,
-            paddingVertical: 6,
-            borderTopLeftRadius: 12,
-            borderBottomRightRadius: 12,
+            flexDirection: 'column',
+            display: 'flex',
+            justifyContent: 'space-between',
           }}>
           <Text
             style={{
-              color: 'white',
+              color: 'black',
               fontFamily: FONT_POPPINS.bold,
               textTransform: 'capitalize',
             }}>
-            {categories[entry.category]}
+            {entry.title}
+          </Text>
+          <Text
+            style={{
+              color: 'black',
+              fontFamily: FONT_POPPINS.regular,
+              fontSize: 12,
+            }}>
+            {dateFormatterUtility(entry.date, 'dddd DD MMMM YYYY')}
           </Text>
         </View>
-        <DeleteEntryComponent entryId={entry.uuid} title={entry.title} />
+        <View
+          style={{
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+          }}>
+          <View
+            style={{
+              width: 'fit-content',
+              backgroundColor: 'black',
+              paddingHorizontal: 12,
+              paddingVertical: 6,
+              borderTopLeftRadius: 12,
+              borderBottomRightRadius: 12,
+            }}>
+            <Text
+              style={{
+                color: 'white',
+                fontFamily: FONT_POPPINS.bold,
+                textTransform: 'capitalize',
+              }}>
+              {categories[entry.category]}
+            </Text>
+          </View>
+          <DeleteEntryComponent entryId={entry.uuid} title={entry.title} />
+        </View>
       </View>
-    </View>
+    </TouchableHighlight>
   );
 };

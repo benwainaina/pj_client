@@ -12,10 +12,13 @@ import {ButtonComponent} from '../../../shared/components/ButtonComponent';
 import {IDynamicObject} from '../../../shared/interfaces';
 import DatePicker from 'react-native-date-picker';
 import {dateFormatterUtility} from '../../../shared/utilities/dateFormatter.utility';
-import {actionCreateUserEntry} from '../../../../state_manager/home/actions';
+import {
+  actionCreateUserEntry,
+  actionUpdateUserEntry,
+} from '../../../../state_manager/home/actions';
 import {dismissKeyboardUtility} from '../../../shared/utilities/keyboard.utility';
 
-export const CreateEntryOverlayComponent = () => {
+export const CreateEntryOverlayComponent = ({entry}: {entry?: IEntry}) => {
   /**
    * hooks
    */
@@ -36,7 +39,37 @@ export const CreateEntryOverlayComponent = () => {
   });
   const [formIsValid, setFormIsValid] = useState(false);
   const [journalDate, setJournalDate] = useState(new Date());
+  const [entryTitle, setEntryTitle] = useState('');
   const [showDatePicker, setShowDatePicker] = useState(false);
+
+  /**
+   * selectors
+   */
+  const entryCategories = useSelector(selectEntriesCategories);
+
+  /**
+   * effects
+   */
+  useEffect(() => {
+    if (entry) {
+      const _entryForm = {
+        category: entry.category,
+        title: entry.title,
+        content: entry.content,
+        date: entry.date,
+      };
+      const _category = entryCategories.find(
+        entryCategory => entryCategory.uuid === entry.category,
+      );
+      if (_category) {
+        setCategory(_category?.name);
+      }
+      setEntryForm(_entryForm);
+      setJournalDate(new Date(_entryForm.date));
+      setEntryTitle(_entryForm.title);
+      setIsSelected(true);
+    }
+  }, [entry]);
 
   /**
    * handler methods
@@ -78,9 +111,14 @@ export const CreateEntryOverlayComponent = () => {
     setFormIsValid(_formIsValid);
   };
 
-  const onSubmitCreateJournal = () => {
+  const onSubmitJournal = () => {
     entryForm['createCategory'] = !isSelected;
-    dispatch<any>(actionCreateUserEntry({entry: entryForm as IEntry}));
+    if (entry) {
+      entryForm.uuid = entry.uuid;
+      dispatch<any>(actionUpdateUserEntry({entry: entryForm as IEntry}));
+    } else {
+      dispatch<any>(actionCreateUserEntry({entry: entryForm as IEntry}));
+    }
     dismissKeyboardUtility();
   };
 
@@ -102,7 +140,7 @@ export const CreateEntryOverlayComponent = () => {
           rowGap: 24,
         }}>
         <Text style={{color: 'black', fontFamily: FONT_POPPINS.bold}}>
-          Create An Entry
+          {entry ? 'Edit Entry' : 'Create An Entry'}
         </Text>
         <View style={{rowGap: 12}}>
           <View style={{position: 'relative', zIndex: 1}}>
@@ -121,8 +159,12 @@ export const CreateEntryOverlayComponent = () => {
           </View>
           <TextInputComponent
             placeholder="Journal title"
-            onNewValue={textContent => onEntryFormChange('title', textContent)}
+            onNewValue={textContent => {
+              setEntryTitle(textContent);
+              onEntryFormChange('title', textContent);
+            }}
             isSecure={false}
+            defaultValue={entryTitle}
           />
           <TextInput
             placeholder="What are you journaling about"
@@ -144,6 +186,7 @@ export const CreateEntryOverlayComponent = () => {
               fontSize: 12,
               alignItems: 'flex-start',
             }}
+            defaultValue={entryForm.content}
           />
           <DatePicker
             modal
@@ -175,8 +218,8 @@ export const CreateEntryOverlayComponent = () => {
           </TouchableHighlight>
           <ButtonComponent
             disabled={!formIsValid}
-            title="Create"
-            onPress={() => onSubmitCreateJournal()}
+            title={entry ? 'Save' : 'Create'}
+            onPress={() => onSubmitJournal()}
             style={{
               button: {
                 backgroundColor: 'black',

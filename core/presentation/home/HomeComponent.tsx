@@ -13,7 +13,6 @@ import {
 import EditProfileSvg from '../assets/images/edit_profile.svg';
 import CreateEntrySvg from '../assets/images/add_entry_icon.svg';
 import ChevronDownSvg from '../assets/images/chevron_down.svg';
-import {datePeriodFormatterUtility} from '../shared/utilities/datePeriodFormatter.utility';
 import {IPeriod} from '../shared/interfaces';
 
 export const HomeComponent = () => {
