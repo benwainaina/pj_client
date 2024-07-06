@@ -18,10 +18,6 @@
 
 ![Login Screen](demos/home.png)
 
-<h3>Demo Video 1 - E2E Flow</h3>
+<h3>Video Demos</h3>
 
-[![Application Logic Flow](demos/login.png)](demos/demo_one.mp4)
-
-<h3>Demo Video 2 - Adding New Category</h3>
-
-[![Watch the video](demos/home.png)](demos/demo_two.mp4)
+Please check the `video demos` in this path `demos`
