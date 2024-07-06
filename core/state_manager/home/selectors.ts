@@ -1,5 +1,7 @@
 import {createSelector} from '@reduxjs/toolkit';
 import {IStore} from '../store';
+import {IDynamicObject} from '../../presentation/shared/interfaces';
+import {IEntryCategory} from './interfaces';
 
 const homeState = (state: IStore) => state.homeStateSlice;
 
@@ -40,6 +42,27 @@ export const selectUserEntries = createSelector(
 export const selectEntriesCategories = createSelector(
   homeState,
   state => state.entriesCategories || [],
+);
+
+/**
+ * select list of entries categories which have entries
+ */
+export const selectEntriesCategoriesWithEnties = createSelector(
+  selectUserEntries,
+  selectEntriesCategories,
+  (userEntries, categories) => {
+    const _entriesCategories: IDynamicObject = {};
+    const _result: Array<IEntryCategory> = [];
+    userEntries.forEach(userEntry => {
+      _entriesCategories[userEntry.category] = true;
+    });
+    categories.forEach(userCategory => {
+      if (_entriesCategories[userCategory.uuid]) {
+        _result.push(userCategory);
+      }
+    });
+    return _result;
+  },
 );
 
 /**

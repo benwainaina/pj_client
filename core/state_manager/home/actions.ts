@@ -59,6 +59,7 @@ export const actionCreateUserEntry = createAsyncThunk(
       );
       dismissKeyboardUtility();
       dispatch<any>(clearOverlayData({}));
+      dispatch<any>(getUserEntries({filters: {}}));
       if (entry.createCategory) {
         entry.category = data.category.uuid;
       }
@@ -103,6 +104,7 @@ export const actionUpdateUserEntry = createAsyncThunk(
       );
       dismissKeyboardUtility();
       dispatch<any>(clearOverlayData({}));
+      dispatch<any>(getUserEntries({filters: {}}));
       entry.date = entry.date.toString();
       return {entry, category: entry.createCategory ? data.category : null};
     } catch (error: any) {

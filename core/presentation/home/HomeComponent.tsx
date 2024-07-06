@@ -14,7 +14,7 @@ import {OverlayComponent} from './components/overlays/OverlayComponent';
 import {editFilterField, setOverlayData} from '../../state_manager/home/slice';
 import {FONT_POPPINS} from '../shared/utilities/constants/fonts.constants';
 import {
-  selectEntriesCategories,
+  selectEntriesCategoriesWithEnties,
   selectUserProfile,
 } from '../../state_manager/home/selectors';
 import EditProfileSvg from '../assets/images/edit_profile.svg';
@@ -153,7 +153,7 @@ const EntryFiltersListComponent = () => {
   /**
    * selectors
    */
-  const entryCategories = useSelector(selectEntriesCategories);
+  const entryCategories = useSelector(selectEntriesCategoriesWithEnties);
 
   /**
    * handlers
