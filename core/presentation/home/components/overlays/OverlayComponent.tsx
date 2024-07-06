@@ -1,4 +1,5 @@
-import {TouchableHighlight, View} from 'react-native';
+import React from 'react';
+import {StyleSheet, TouchableHighlight, View} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {selectOverlayData} from '../../../../state_manager/home/selectors';
 import {DeleteEntryOverlayComponent} from './DeleteEntryOverlayComponent';
@@ -35,27 +36,14 @@ export const OverlayComponent = () => {
   return (
     <View
       style={{
-        width: '100%',
-        height: '100%',
-        position: 'absolute',
+        ...STYLES.containerOne,
         display: overlayData?.scope ? 'flex' : 'none',
       }}>
-      <View
-        style={{
-          width: '100%',
-          display: 'flex',
-          height: '100%',
-          zIndex: 12,
-        }}>
+      <View style={STYLES.containerTwo}>
         <TouchableHighlight
           underlayColor={''}
-          onPress={() => dispatch(clearOverlayData())}
-          style={{
-            width: '100%',
-            height: '100%',
-            position: 'absolute',
-            backgroundColor: 'rgba(0,0,0,0.25)',
-          }}>
+          onPress={() => dispatch(clearOverlayData({}))}
+          style={STYLES.touchableOne}>
           <></>
         </TouchableHighlight>
         {componentToRender()}
@@ -63,3 +51,14 @@ export const OverlayComponent = () => {
     </View>
   );
 };
+
+const STYLES = StyleSheet.create({
+  containerOne: {width: '100%', height: '100%', position: 'absolute'},
+  containerTwo: {width: '100%', display: 'flex', height: '100%', zIndex: 12},
+  touchableOne: {
+    width: '100%',
+    height: '100%',
+    position: 'absolute',
+    backgroundColor: 'rgba(0,0,0,0.25)',
+  },
+});
