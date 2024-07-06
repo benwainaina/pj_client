@@ -1,5 +1,5 @@
-import {useState} from 'react';
-import {Text, View} from 'react-native';
+import React from 'react';
+import {View} from 'react-native';
 import {FONT_POPPINS} from '../../shared/utilities/constants/fonts.constants';
 import {ButtonComponent} from '../../shared/components/ButtonComponent';
 import {useDispatch} from 'react-redux';
@@ -16,11 +16,6 @@ export const DeleteEntryComponent = ({
    * hooks
    */
   const dispatch = useDispatch();
-
-  /**
-   * states
-   */
-  const [showDeleteOverlay, setShowDeleteOverlay] = useState(false);
 
   /**
    * methods
