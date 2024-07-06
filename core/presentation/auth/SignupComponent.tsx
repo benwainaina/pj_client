@@ -1,4 +1,5 @@
-import {Text, TextInput, TouchableHighlight, View} from 'react-native';
+import React from 'react';
+import {StyleSheet, Text, TouchableHighlight, View} from 'react-native';
 import {FONT_POPPINS} from '../shared/utilities/constants/fonts.constants';
 import {useState} from 'react';
 import {IDynamicObject} from '../shared/interfaces';
@@ -7,6 +8,8 @@ import {useDispatch, useSelector} from 'react-redux';
 import {actionSignupUser} from '../../state_manager/auth/actions';
 import {selectUserIsSigningUp} from '../../state_manager/auth/selectors';
 import {useNavigation} from '@react-navigation/native';
+import {ButtonComponent} from '../shared/components/ButtonComponent';
+import {TextInputComponent} from '../shared/components/TextInputComponent';
 
 export const SignupComponent = () => {
   /**
@@ -74,39 +77,30 @@ export const SignupComponent = () => {
   };
 
   return (
-    <View
-      style={{
-        width: '100%',
-        height: '100%',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        rowGap: 48,
-      }}>
-      <Text
-        style={{fontFamily: FONT_POPPINS.bold, color: 'black', fontSize: 20}}>
-        Sign Up
-      </Text>
-      <View style={{width: '75%', rowGap: 12}}>
+    <View style={STYLES.containerOne}>
+      <Text style={STYLES.titleOne}>Sign Up</Text>
+      <View style={STYLES.containerTwo}>
         <TextInputComponent
           isSecure={false}
           placeholder="Username"
-          onNewValue={value => onFormFieldChange('username', value)}
+          onNewValue={(value: string) => onFormFieldChange('username', value)}
         />
         <TextInputComponent
           isSecure={false}
           placeholder="Email"
-          onNewValue={value => onFormFieldChange('email', value)}
+          onNewValue={(value: string) => onFormFieldChange('email', value)}
         />
         <TextInputComponent
           isSecure={true}
           placeholder="Password"
-          onNewValue={value => onFormFieldChange('password', value)}
+          onNewValue={(value: string) => onFormFieldChange('password', value)}
         />
         <TextInputComponent
           isSecure={true}
           placeholder="Password"
-          onNewValue={value => onFormFieldChange('confirmPassword', value)}
+          onNewValue={(value: string) =>
+            onFormFieldChange('confirmPassword', value)
+          }
         />
         <ButtonComponent
           title={isSigningUpUser ? 'Please wait...' : 'Sign Up'}
@@ -131,35 +125,12 @@ export const SignupComponent = () => {
           }}
           onPress={() => onSignupPress()}
         />
-        <View
-          style={{
-            display: 'flex',
-            flexDirection: 'row',
-            columnGap: 4,
-            marginTop: 24,
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}>
-          <Text
-            style={{
-              color: 'black',
-              fontFamily: FONT_POPPINS.regular,
-              fontSize: 12,
-            }}>
-            Already a member?
-          </Text>
+        <View style={STYLES.containerThree}>
+          <Text style={STYLES.titleThree}>Already a member?</Text>
           <TouchableHighlight
             underlayColor={''}
             onPress={() => navigation.navigate('login')}>
-            <Text
-              style={{
-                color: 'blue',
-                fontFamily: FONT_POPPINS.bold,
-                fontSize: 12,
-                textDecorationLine: 'underline',
-              }}>
-              Login
-            </Text>
+            <Text style={STYLES.titleFour}>Login</Text>
           </TouchableHighlight>
         </View>
       </View>
@@ -167,54 +138,34 @@ export const SignupComponent = () => {
   );
 };
 
-const TextInputComponent = ({
-  placeholder,
-  onNewValue,
-  isSecure,
-}: {
-  placeholder: string;
-  onNewValue: any;
-  isSecure: boolean;
-}) => {
-  return (
-    <TextInput
-      secureTextEntry={isSecure}
-      placeholderTextColor={'black'}
-      style={{
-        fontFamily: FONT_POPPINS.regular,
-        borderColor: '#ddd',
-        borderWidth: 1,
-        width: '100%',
-        color: 'black',
-        paddingLeft: 12,
-        paddingVertical: 8,
-        borderRadius: 4,
-        fontSize: 12,
-      }}
-      placeholder={placeholder}
-      onChangeText={value => onNewValue(value)}
-    />
-  );
-};
-
-const ButtonComponent = ({
-  title,
-  disabled,
-  style,
-  onPress,
-}: {
-  title: string;
-  disabled: boolean;
-  style: {button: {[style: string]: string}; text: {[style: string]: string}};
-  onPress: Function;
-}) => {
-  return (
-    <TouchableHighlight
-      onPress={() => onPress()}
-      disabled={disabled}
-      underlayColor={style.button.backgroundColor}
-      style={style.button}>
-      <Text style={style.text}>{title}</Text>
-    </TouchableHighlight>
-  );
-};
+const STYLES = StyleSheet.create({
+  containerOne: {
+    width: '100%',
+    height: '100%',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    rowGap: 48,
+  },
+  titleOne: {fontFamily: FONT_POPPINS.bold, color: 'black', fontSize: 20},
+  containerTwo: {width: '75%', rowGap: 12},
+  containerThree: {
+    display: 'flex',
+    flexDirection: 'row',
+    columnGap: 4,
+    marginTop: 24,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  titleThree: {
+    color: 'black',
+    fontFamily: FONT_POPPINS.regular,
+    fontSize: 12,
+  },
+  titleFour: {
+    color: 'blue',
+    fontFamily: FONT_POPPINS.bold,
+    fontSize: 12,
+    textDecorationLine: 'underline',
+  },
+});
