@@ -1,4 +1,11 @@
-import {ScrollView, Text, TouchableHighlight, View} from 'react-native';
+import React from 'react';
+import {
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableHighlight,
+  View,
+} from 'react-native';
 import {EntriesListComponent} from './components/EntriesListComponent';
 import {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
@@ -27,30 +34,13 @@ export const HomeComponent = () => {
   const userProfile = useSelector(selectUserProfile);
 
   useEffect(() => {
-    dispatch(getEntryCategories());
+    dispatch<any>(getEntryCategories());
   }, []);
 
   return (
-    <View
-      style={{
-        display: 'flex',
-        height: '100%',
-        width: '100%',
-        backgroundColor: '#fcfcfc',
-      }}>
-      <View
-        style={{
-          flex: 1,
-          display: 'flex',
-          paddingHorizontal: 16,
-          justifyContent: 'space-between',
-        }}>
-        <View
-          style={{
-            display: 'flex',
-            paddingTop: 12,
-            justifyContent: 'space-between',
-          }}>
+    <View style={HOME_COMPONENT_STYLES.containerOne}>
+      <View style={HOME_COMPONENT_STYLES.containerTwo}>
+        <View style={HOME_COMPONENT_STYLES.containerThree}>
           <TouchableHighlight
             underlayColor={''}
             onPress={() =>
@@ -60,28 +50,16 @@ export const HomeComponent = () => {
             }>
             <EditProfileSvg width={36} height={36} />
           </TouchableHighlight>
-          <Text
-            style={{
-              fontFamily: FONT_POPPINS.bold,
-              color: 'black',
-              alignSelf: 'center',
-              fontSize: 24,
-              marginTop: 24,
-            }}>
+          <Text style={HOME_COMPONENT_STYLES.containerFour}>
             Hello {userProfile?.username}!
           </Text>
         </View>
-        <View style={{display: 'flex'}}>
+        <View style={HOME_COMPONENT_STYLES.containerFive}>
           <EntryPeriodFilterComponent />
           <EntryFiltersListComponent />
         </View>
       </View>
-      <View
-        style={{
-          flex: 2,
-          overflow: 'scroll',
-          height: '100%',
-        }}>
+      <View style={HOME_COMPONENT_STYLES.containerSix}>
         <ScrollView>
           <EntriesListComponent />
         </ScrollView>
@@ -91,6 +69,35 @@ export const HomeComponent = () => {
     </View>
   );
 };
+
+const HOME_COMPONENT_STYLES = StyleSheet.create({
+  containerOne: {
+    display: 'flex',
+    height: '100%',
+    width: '100%',
+    backgroundColor: '#fcfcfc',
+  },
+  containerTwo: {
+    flex: 1,
+    display: 'flex',
+    paddingHorizontal: 16,
+    justifyContent: 'space-between',
+  },
+  containerThree: {
+    display: 'flex',
+    paddingTop: 12,
+    justifyContent: 'space-between',
+  },
+  containerFour: {
+    fontFamily: FONT_POPPINS.bold,
+    color: 'black',
+    alignSelf: 'center',
+    fontSize: 24,
+    marginTop: 24,
+  },
+  containerFive: {display: 'flex'},
+  containerSix: {flex: 2, overflow: 'scroll', height: '100%'},
+});
 
 const AddEntryButtonComponent = () => {
   /**
@@ -106,27 +113,31 @@ const AddEntryButtonComponent = () => {
   };
 
   return (
-    <View
-      style={{
-        position: 'absolute',
-        bottom: 12,
-        right: '42%',
-        borderRadius: 50,
-        zIndex: 10,
-        backgroundColor: 'white',
-        elevation: 12,
-      }}>
+    <View style={ADD_ENTRY_BUTTON_COMPONENT_STYLES.containerOne}>
       <TouchableHighlight
         underlayColor={''}
         onPress={() => createEntry()}
-        style={{padding: 12}}>
-        <Text style={{color: 'black', fontFamily: FONT_POPPINS.bold}}>
-          <CreateEntrySvg />
-        </Text>
+        style={ADD_ENTRY_BUTTON_COMPONENT_STYLES.containerTwo}>
+        <CreateEntrySvg />
       </TouchableHighlight>
     </View>
   );
 };
+
+const ADD_ENTRY_BUTTON_COMPONENT_STYLES = StyleSheet.create({
+  containerOne: {
+    position: 'absolute',
+    bottom: 12,
+    right: '42%',
+    borderRadius: 50,
+    zIndex: 10,
+    backgroundColor: 'white',
+    elevation: 12,
+  },
+  containerTwo: {
+    padding: 12,
+  },
+});
 
 const EntryFiltersListComponent = () => {
   /**
@@ -158,25 +169,19 @@ const EntryFiltersListComponent = () => {
   };
 
   return (
-    <View style={{display: 'flex', flexDirection: 'row', width: '100%'}}>
+    <View style={ENTRY_FILTERS_LIST_COMPONENT_STYLES.containerOne}>
       <ScrollView horizontal={true}>
         <TouchableHighlight
           underlayColor={''}
           style={{
-            paddingVertical: 6,
-            paddingHorizontal: 12,
-            borderColor: '#ddd',
-            borderWidth: 1,
-            borderRadius: 6,
-            marginRight: 12,
+            ...ENTRY_FILTERS_LIST_COMPONENT_STYLES.touchableOne,
             backgroundColor: activeCategory === 'all' ? 'black' : 'white',
           }}
           onPress={() => onActiveCategorySet('all')}>
           <Text
             style={{
+              ...ENTRY_FILTERS_LIST_COMPONENT_STYLES.textOne,
               color: activeCategory === 'all' ? 'white' : 'black',
-              fontFamily: FONT_POPPINS.bold,
-              textTransform: 'capitalize',
             }}>
             all
           </Text>
@@ -186,21 +191,15 @@ const EntryFiltersListComponent = () => {
             key={category.uuid}
             underlayColor={''}
             style={{
-              paddingVertical: 6,
-              paddingHorizontal: 12,
-              borderColor: '#ddd',
-              borderWidth: 1,
-              borderRadius: 6,
-              marginRight: 12,
+              ...ENTRY_FILTERS_LIST_COMPONENT_STYLES.touchableTwo,
               backgroundColor:
                 activeCategory === category.uuid ? 'black' : 'white',
             }}
             onPress={() => onActiveCategorySet(category.uuid)}>
             <Text
               style={{
+                ...ENTRY_FILTERS_LIST_COMPONENT_STYLES.textTwo,
                 color: activeCategory === category.uuid ? 'white' : 'black',
-                fontFamily: FONT_POPPINS.bold,
-                textTransform: 'capitalize',
               }}>
               {category.name}
             </Text>
@@ -210,6 +209,31 @@ const EntryFiltersListComponent = () => {
     </View>
   );
 };
+
+const ENTRY_FILTERS_LIST_COMPONENT_STYLES = StyleSheet.create({
+  containerOne: {display: 'flex', flexDirection: 'row', width: '100%'},
+  touchableOne: {
+    paddingVertical: 6,
+    paddingHorizontal: 12,
+    borderColor: '#ddd',
+    borderWidth: 1,
+    borderRadius: 6,
+    marginRight: 12,
+  },
+  touchableTwo: {
+    paddingVertical: 6,
+    paddingHorizontal: 12,
+    borderColor: '#ddd',
+    borderWidth: 1,
+    borderRadius: 6,
+    marginRight: 12,
+  },
+  textOne: {
+    fontFamily: FONT_POPPINS.bold,
+    textTransform: 'capitalize',
+  },
+  textTwo: {fontFamily: FONT_POPPINS.bold, textTransform: 'capitalize'},
+});
 
 const EntryPeriodFilterComponent = () => {
   /**
@@ -239,54 +263,19 @@ const EntryPeriodFilterComponent = () => {
   };
 
   return (
-    <View
-      style={{
-        position: 'relative',
-        display: 'flex',
-        flexDirection: 'row',
-        maxWidth: 230,
-        marginBottom: 24,
-        alignItems: 'center',
-        columnGap: 16,
-      }}>
+    <View style={ENTRY_PERIOD_FILTER_COMPONENT_STYLES.containerOne}>
       <TouchableHighlight
         underlayColor={''}
         onPress={() => setShowActivePeriodPicker(!showActivePeriodPicker)}>
-        <View
-          style={{
-            display: 'flex',
-            flexDirection: 'row',
-            columnGap: 8,
-            borderBottomColor: '#ddd',
-            borderBottomWidth: 1,
-            alignItems: 'center',
-          }}>
-          <Text
-            style={{
-              color: 'black',
-              fontFamily: FONT_POPPINS.regular,
-              textTransform: 'capitalize',
-              fontSize: 12,
-            }}>
+        <View style={ENTRY_PERIOD_FILTER_COMPONENT_STYLES.containerTwo}>
+          <Text style={ENTRY_PERIOD_FILTER_COMPONENT_STYLES.textOne}>
             {activePeriod}
           </Text>
           <ChevronDownSvg />
         </View>
       </TouchableHighlight>
       {showActivePeriodPicker && (
-        <View
-          style={{
-            position: 'absolute',
-            top: '100%',
-            backgroundColor: 'white',
-            elevation: 7,
-            zIndex: 3,
-            width: '100%',
-            padding: 12,
-            borderBottomLeftRadius: 12,
-            borderBottomRightRadius: 12,
-            rowGap: 12,
-          }}>
+        <View style={ENTRY_PERIOD_FILTER_COMPONENT_STYLES.containerThree}>
           {availablePeriods
             .filter(period => period !== activePeriod)
             .map((period, index) => (
@@ -294,12 +283,7 @@ const EntryPeriodFilterComponent = () => {
                 key={index}
                 underlayColor={''}
                 onPress={() => onPeriodSelected(period)}>
-                <Text
-                  style={{
-                    color: 'black',
-                    fontFamily: FONT_POPPINS.bold,
-                    textTransform: 'capitalize',
-                  }}>
+                <Text style={ENTRY_PERIOD_FILTER_COMPONENT_STYLES.textTwo}>
                   {period}
                 </Text>
               </TouchableHighlight>
@@ -309,3 +293,46 @@ const EntryPeriodFilterComponent = () => {
     </View>
   );
 };
+
+const ENTRY_PERIOD_FILTER_COMPONENT_STYLES = StyleSheet.create({
+  containerOne: {
+    position: 'relative',
+    display: 'flex',
+    flexDirection: 'row',
+    maxWidth: 230,
+    marginBottom: 24,
+    alignItems: 'center',
+    columnGap: 16,
+  },
+  containerTwo: {
+    display: 'flex',
+    flexDirection: 'row',
+    columnGap: 8,
+    borderBottomColor: '#ddd',
+    borderBottomWidth: 1,
+    alignItems: 'center',
+  },
+  containerThree: {
+    position: 'absolute',
+    top: '100%',
+    backgroundColor: 'white',
+    elevation: 7,
+    zIndex: 3,
+    width: '100%',
+    padding: 12,
+    borderBottomLeftRadius: 12,
+    borderBottomRightRadius: 12,
+    rowGap: 12,
+  },
+  textOne: {
+    color: 'black',
+    fontFamily: FONT_POPPINS.regular,
+    textTransform: 'capitalize',
+    fontSize: 12,
+  },
+  textTwo: {
+    color: 'black',
+    fontFamily: FONT_POPPINS.bold,
+    textTransform: 'capitalize',
+  },
+});
