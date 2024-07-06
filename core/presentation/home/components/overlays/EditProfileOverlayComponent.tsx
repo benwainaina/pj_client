@@ -59,11 +59,18 @@ export const EditProfileOverlayComponent = () => {
 
   const validateEntryForm = () => {
     let _formIsValid = true;
-    for (const field in updateProfileForm) {
-      if (!updateProfileForm[field]) {
-        _formIsValid = false;
-        break;
-      }
+    // for (const field in updateProfileForm) {
+    //   if (!updateProfileForm[field]) {
+    //     _formIsValid = false;
+    //     break;
+    //   }
+    // }
+
+    /**
+     * the username must be there
+     */
+    if (!updateProfileForm.username) {
+      _formIsValid = false;
     }
 
     if (

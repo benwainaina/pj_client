@@ -181,7 +181,7 @@ export const deleteUserEntry = createAsyncThunk(
 
 export const actionUpdateProfile = createAsyncThunk(
   UserActionIDs.IDActionUpdateProfile,
-  async (arg: {payload: IUpdateProfileModel}, api) => {
+  async (arg: {payload: IDynamicObject}, api) => {
     const {payload} = arg;
     const {rejectWithValue, dispatch, getState} = api;
     const userToken = selectUserTokenValue(getState() as IStore);
@@ -197,7 +197,10 @@ export const actionUpdateProfile = createAsyncThunk(
           setUserProfile({userProfile: {username: payload.username}}),
         );
       }
-      dispatch<any>(setUserToken({userToken: '', isValid: false}));
+      if (payload.newPassword) {
+        // password was changed
+        dispatch<any>(setUserToken({userToken: '', isValid: false}));
+      }
     } catch (error: any) {
       commonAlertDispatch(
         {
