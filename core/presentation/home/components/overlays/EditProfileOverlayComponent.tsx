@@ -1,5 +1,6 @@
+import React from 'react';
 import {useEffect, useState} from 'react';
-import {Text, View} from 'react-native';
+import {StyleSheet, Text, View} from 'react-native';
 import {IDynamicObject} from '../../../shared/interfaces';
 import {useDispatch, useSelector} from 'react-redux';
 import {
@@ -40,10 +41,12 @@ export const EditProfileOverlayComponent = () => {
    */
   useEffect(() => {
     const _updateProfileForm = updateProfileForm;
-    _updateProfileForm['username'] = userProfile?.username;
+    _updateProfileForm.username = userProfile?.username;
     setUpdateProfileForm(updateProfileForm);
-    setUsername(userProfile?.username);
-  }, [userProfile]);
+    if (userProfile) {
+      setUsername(userProfile.username);
+    }
+  }, [userProfile, updateProfileForm]);
 
   /**
    * handlers
@@ -77,21 +80,12 @@ export const EditProfileOverlayComponent = () => {
   };
 
   return (
-    <View
-      style={{
-        backgroundColor: 'white',
-        position: 'absolute',
-        bottom: 0,
-        width: '100%',
-        padding: 24,
-        zIndex: 12,
-        alignSelf: 'center',
-        rowGap: 24,
-      }}>
+    <View style={STYLES.containerOne}>
       <TextInputComponent
+        isSecure={false}
         placeholder="Your username"
         defaultValue={username}
-        onNewValue={newValue => {
+        onNewValue={(newValue: string) => {
           onFormFieldChange('username', newValue);
           setUsername(newValue);
         }}
@@ -99,27 +93,26 @@ export const EditProfileOverlayComponent = () => {
       <TextInputComponent
         isSecure={true}
         placeholder="Your new password"
-        onNewValue={newValue => onFormFieldChange('newPassword', newValue)}
+        onNewValue={(newValue: string) =>
+          onFormFieldChange('newPassword', newValue)
+        }
       />
       <TextInputComponent
         isSecure={true}
         placeholder="Confirm your new password"
-        onNewValue={newValue =>
+        onNewValue={(newValue: string) =>
           onFormFieldChange('confirmNewPassword', newValue)
         }
       />
-      <Text
-        style={{
-          color: 'black',
-          fontFamily: FONT_POPPINS.regular,
-          fontSize: 12,
-        }}>
+      <Text style={STYLES.titleOne}>
         Enter your current password below to continue
       </Text>
       <TextInputComponent
         isSecure={true}
         placeholder="Your current password"
-        onNewValue={newValue => onFormFieldChange('currentPassword', newValue)}
+        onNewValue={(newValue: string) =>
+          onFormFieldChange('currentPassword', newValue)
+        }
       />
       <ButtonComponent
         disabled={!formIsValid || isUpdatingProfile}
@@ -143,3 +136,21 @@ export const EditProfileOverlayComponent = () => {
     </View>
   );
 };
+
+const STYLES = StyleSheet.create({
+  containerOne: {
+    backgroundColor: 'white',
+    position: 'absolute',
+    bottom: 0,
+    width: '100%',
+    padding: 24,
+    zIndex: 12,
+    alignSelf: 'center',
+    rowGap: 24,
+  },
+  titleOne: {
+    color: 'black',
+    fontFamily: FONT_POPPINS.regular,
+    fontSize: 12,
+  },
+});
