@@ -1,5 +1,5 @@
 import React from 'react';
-import {SafeAreaView, StatusBar} from 'react-native';
+import {SafeAreaView, StatusBar, StyleSheet} from 'react-native';
 
 import {Provider} from 'react-redux';
 import {LoadingComponent} from './core/presentation/shared/components/LoadingComponent';
@@ -16,12 +16,12 @@ function App(): React.JSX.Element {
       <Provider store={STORE}>
         <PersistGate loading={<LoadingComponent />} persistor={STORE_PERSISTOR}>
           <NavigationContainer>
-            <SafeAreaView style={{flex: 1}}>
-              <StatusBar></StatusBar>
+            <SafeAreaView style={STYLES.safeArea}>
+              <StatusBar />
               <Authenticator>
-                <AppRoutes></AppRoutes>
+                <AppRoutes />
               </Authenticator>
-              <AlertComponent></AlertComponent>
+              <AlertComponent />
             </SafeAreaView>
           </NavigationContainer>
         </PersistGate>
@@ -29,5 +29,11 @@ function App(): React.JSX.Element {
     </React.StrictMode>
   );
 }
+
+const STYLES = StyleSheet.create({
+  safeArea: {
+    flex: 1,
+  },
+});
 
 export default App;

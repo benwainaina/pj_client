@@ -124,7 +124,6 @@ export const CreateOrUpdateEntryOverlayComponent = ({
 
   const onSubmitJournal = () => {
     entryForm.createCategory = !isSelected;
-    console.log('entryForm', entryForm);
     if (entry) {
       entryForm.uuid = entry.uuid;
       dispatch<any>(actionUpdateUserEntry({entry: entryForm as IEntry}));

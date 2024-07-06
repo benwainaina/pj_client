@@ -30,7 +30,6 @@ export const AlertComponent = () => {
   }, [dispatch]);
 
   useEffect(() => {
-    console.log('alertData', alertData);
     setShowAlert(true);
     setTimeout(() => {
       setShowAlert(false);
