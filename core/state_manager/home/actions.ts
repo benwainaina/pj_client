@@ -3,12 +3,7 @@ import * as UserActionIDs from './action.ids';
 import {IStore} from '../store';
 import {selectUserTokenValue} from '../shared/selectors';
 import {CoreAPIService} from '../api/CoreAPI.service';
-import {
-  IEntry,
-  IEntryFilters,
-  IUpdateProfileModel,
-  IUserProfile,
-} from './interfaces';
+import {IEntry, IEntryFilters, IUpdateProfileModel} from './interfaces';
 import {setAlertData, setUserToken} from '../shared/slice';
 import {IAlertData} from '../shared/interfaces';
 import {clearOverlayData, setUserProfile} from './slice';
@@ -164,7 +159,7 @@ export const deleteUserEntry = createAsyncThunk(
     const userToken = selectUserTokenValue(getState() as IStore);
 
     try {
-      const {data} = await CoreAPIService.post('entry/delete', {
+      await CoreAPIService.post('entry/delete', {
         token: userToken,
         uuid: entryId,
       });
@@ -192,14 +187,16 @@ export const actionUpdateProfile = createAsyncThunk(
     const userToken = selectUserTokenValue(getState() as IStore);
 
     try {
-      const {data} = await CoreAPIService.post('user/update_profile', {
+      await CoreAPIService.post('user/update_profile', {
         token: userToken,
         ...payload,
       });
       dispatch<any>(clearOverlayData({}));
-      dispatch<any>(
-        setUserProfile({userProfile: {username: payload.username}}),
-      );
+      if (payload.username) {
+        dispatch<any>(
+          setUserProfile({userProfile: {username: payload.username}}),
+        );
+      }
       dispatch<any>(setUserToken({userToken: '', isValid: false}));
     } catch (error: any) {
       commonAlertDispatch(

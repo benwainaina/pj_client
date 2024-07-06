@@ -1,6 +1,5 @@
 import {createSelector} from '@reduxjs/toolkit';
 import {IStore} from '../store';
-import {IEntryCategory} from './interfaces';
 
 const homeState = (state: IStore) => state.homeStateSlice;
 

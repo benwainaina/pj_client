@@ -33,7 +33,7 @@ const homeSlice = createSlice({
     setOverlayData(state, action: {payload: {overlayData: IOverlayData}}) {
       state.overlayData = action.payload.overlayData;
     },
-    clearOverlayData(state, action) {
+    clearOverlayData(state, _action) {
       state.overlayData = {};
     },
     setUserProfile(state, action: {payload: {userProfile: IUserProfile}}) {
@@ -52,20 +52,20 @@ const homeSlice = createSlice({
   },
   extraReducers: builder =>
     builder
-      .addCase(getUserEntries.pending, (state, action) => {
+      .addCase(getUserEntries.pending, (state, _action) => {
         state.isFetchingEntries = true;
       })
       .addCase(getUserEntries.fulfilled, (state, action) => {
         state.entries = action.payload?.entries;
         state.isFetchingEntries = false;
       })
-      .addCase(getUserEntries.rejected, (state, action) => {
+      .addCase(getUserEntries.rejected, (state, _action) => {
         state.isFetchingEntries = false;
       })
       .addCase(getEntryCategories.fulfilled, (state, action) => {
         state.entriesCategories = action.payload?.categories;
       })
-      .addCase(deleteUserEntry.pending, (state, action) => {
+      .addCase(deleteUserEntry.pending, (state, _action) => {
         state.isDeletingEntry = true;
       })
       .addCase(deleteUserEntry.fulfilled, (state, action) => {
@@ -74,10 +74,10 @@ const homeSlice = createSlice({
         );
         state.isDeletingEntry = false;
       })
-      .addCase(deleteUserEntry.rejected, (state, action) => {
+      .addCase(deleteUserEntry.rejected, (state, _action) => {
         state.isDeletingEntry = false;
       })
-      .addCase(actionCreateUserEntry.pending, (state, action) => {
+      .addCase(actionCreateUserEntry.pending, (state, _action) => {
         state.isCreatingEntry = true;
       })
       .addCase(actionCreateUserEntry.fulfilled, (state, action) => {
@@ -93,10 +93,10 @@ const homeSlice = createSlice({
           ];
         }
       })
-      .addCase(actionCreateUserEntry.rejected, (state, action) => {
+      .addCase(actionCreateUserEntry.rejected, (state, _action) => {
         state.isCreatingEntry = false;
       })
-      .addCase(actionUpdateUserEntry.pending, (state, action) => {
+      .addCase(actionUpdateUserEntry.pending, (state, _action) => {
         state.isUpdatingEntry = true;
       })
       .addCase(actionUpdateUserEntry.fulfilled, (state, action) => {
@@ -121,16 +121,16 @@ const homeSlice = createSlice({
         }
         state.isUpdatingEntry = false;
       })
-      .addCase(actionUpdateUserEntry.rejected, (state, action) => {
+      .addCase(actionUpdateUserEntry.rejected, (state, _action) => {
         state.isUpdatingEntry = false;
       })
-      .addCase(actionUpdateProfile.pending, (state, action) => {
+      .addCase(actionUpdateProfile.pending, (state, _action) => {
         state.isUpdatingProfile = true;
       })
-      .addCase(actionUpdateProfile.fulfilled, (state, action) => {
+      .addCase(actionUpdateProfile.fulfilled, (state, _action) => {
         state.isUpdatingProfile = false;
       })
-      .addCase(actionUpdateProfile.rejected, (state, action) => {
+      .addCase(actionUpdateProfile.rejected, (state, _action) => {
         state.isUpdatingProfile = false;
       }),
 });
