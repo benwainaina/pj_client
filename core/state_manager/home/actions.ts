@@ -59,6 +59,9 @@ export const actionCreateUserEntry = createAsyncThunk(
       );
       dismissKeyboardUtility();
       dispatch<any>(clearOverlayData({}));
+      if (entry.createCategory) {
+        entry.category = data.category.uuid;
+      }
       return {
         entry: {...entry, uuid: data.entry_uuid},
         category: entry.createCategory ? data.category : null,
@@ -85,6 +88,7 @@ export const actionUpdateUserEntry = createAsyncThunk(
     const userToken = selectUserTokenValue(getState() as IStore);
 
     try {
+      entry.date = new Date(entry.date) as any;
       const {data} = await CoreAPIService.post('entry/update_entry', {
         token: userToken,
         ...entry,
