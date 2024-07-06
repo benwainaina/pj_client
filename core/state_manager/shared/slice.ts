@@ -28,14 +28,14 @@ const sharedSlice = createSlice({
   },
   extraReducers: builder =>
     builder
-      .addCase(actionValidateToken.pending, (state, action) => {
+      .addCase(actionValidateToken.pending, (state, _action) => {
         state.tokenIsValidating = true;
       })
-      .addCase(actionValidateToken.fulfilled, (state, action) => {
+      .addCase(actionValidateToken.fulfilled, (state, _action) => {
         state.tokenIsValidating = false;
         state.tokenIsValid = true;
       })
-      .addCase(actionValidateToken.rejected, (state, action) => {
+      .addCase(actionValidateToken.rejected, (state, _action) => {
         state.tokenIsValidating = false;
         state.tokenIsValid = false;
       }),
