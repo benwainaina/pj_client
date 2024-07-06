@@ -22,6 +22,6 @@ const STYLES = StyleSheet.create({
   textOne: {
     color: 'black',
     fontSize: 16,
-    fontFamily: FONT_POPPINS.regular,
+    fontFamily: FONT_POPPINS.bold,
   },
 });

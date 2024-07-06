@@ -12,19 +12,26 @@ export const selectIsFetchingEntries = createSelector(
 );
 
 /**
- * select the user entries
- */
-export const selectUserEntries = createSelector(
-  homeState,
-  state => state?.entries,
-);
-
-/**
  * select entries filters
  */
 export const selectEntriesFilters = createSelector(
   homeState,
   state => state?.filters,
+);
+
+/**
+ * select the user entries
+ */
+export const selectUserEntries = createSelector(
+  homeState,
+  selectEntriesFilters,
+  (state, filters) => {
+    let _entries = state?.entries || [];
+    if (filters?.category && filters?.category !== 'all') {
+      _entries = _entries.filter(entry => entry.category === filters.category);
+    }
+    return _entries;
+  },
 );
 
 /**

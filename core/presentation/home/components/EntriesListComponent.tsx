@@ -16,6 +16,7 @@ import {DeleteEntryComponent} from './DeleteEntryComponent';
 
 import {dateFormatterUtility} from '../../shared/utilities/dateFormatter.utility';
 import {setOverlayData} from '../../../state_manager/home/slice';
+import {LoadingComponent} from '../../shared/components/LoadingComponent';
 
 export const EntriesListComponent = () => {
   /**
@@ -35,7 +36,7 @@ export const EntriesListComponent = () => {
    */
   useEffect(() => {
     dispatch<any>(getUserEntries({filters: {}}));
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     dispatch<any>(getUserEntries({filters}));
@@ -43,17 +44,32 @@ export const EntriesListComponent = () => {
 
   return (
     <View style={ENTRIES_LIST_COMPONENT_STYLES.containerOne}>
-      {entries?.length ? (
-        <EntriesPresentComponent entries={entries} />
+      {isFetchingEntries ? (
+        <View style={ENTRIES_LIST_COMPONENT_STYLES.containerTwo}>
+          <LoadingComponent message="Loading..." />
+        </View>
       ) : (
-        <NoEntriesPresentComponent />
+        <View style={ENTRIES_LIST_COMPONENT_STYLES.containerThree}>
+          {entries?.length ? (
+            <EntriesPresentComponent entries={entries} />
+          ) : (
+            <NoEntriesPresentComponent />
+          )}
+        </View>
       )}
     </View>
   );
 };
 
 const ENTRIES_LIST_COMPONENT_STYLES = StyleSheet.create({
-  containerOne: {
+  containerOne: {height: '100%', width: '100%'},
+  containerTwo: {
+    height: 100,
+    width: '100%',
+    backgroundColor: 'red',
+    marginTop: 24,
+  },
+  containerThree: {
     display: 'flex',
     height: '100%',
     width: '100%',
