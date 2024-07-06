@@ -8,7 +8,7 @@ export const ButtonComponent = ({
 }: {
   title: string;
   disabled: boolean;
-  style: {button: {[style: string]: string}; text: {[style: string]: string}};
+  style: {button: {[style: string]: any}; text: {[style: string]: any}};
   onPress: Function;
 }) => {
   return (

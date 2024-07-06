@@ -1,4 +1,5 @@
-import {Text, TouchableHighlight, View} from 'react-native';
+import React from 'react';
+import {StyleSheet, Text, TouchableHighlight, View} from 'react-native';
 import {FONT_POPPINS} from '../shared/utilities/constants/fonts.constants';
 import {useState} from 'react';
 import {IDynamicObject} from '../shared/interfaces';
@@ -9,6 +10,7 @@ import {useNavigation} from '@react-navigation/native';
 import {TextInputComponent} from '../shared/components/TextInputComponent';
 import {ButtonComponent} from '../shared/components/ButtonComponent';
 import {actionLoginUser} from '../../state_manager/auth/actions';
+import {IUserCredentails} from '../../state_manager/auth/interfaces';
 
 export const LoginComponent = () => {
   /**
@@ -57,34 +59,24 @@ export const LoginComponent = () => {
 
   const onLoginPress = () => {
     dismissKeyboardUtility();
-    // TODO: login goes here
-    dispatch<any>(actionLoginUser({userCredentials}));
+    dispatch<any>(
+      actionLoginUser({userCredentials: userCredentials as IUserCredentails}),
+    );
   };
 
   return (
-    <View
-      style={{
-        width: '100%',
-        height: '100%',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        rowGap: 48,
-      }}>
-      <Text
-        style={{fontFamily: FONT_POPPINS.bold, color: 'black', fontSize: 20}}>
-        Login
-      </Text>
-      <View style={{width: '75%', rowGap: 12}}>
+    <View style={STYLES.container}>
+      <Text style={STYLES.title}>Login</Text>
+      <View style={STYLES.containerTwo}>
         <TextInputComponent
           isSecure={false}
           placeholder="Email"
-          onNewValue={value => onFormFieldChange('email', value)}
+          onNewValue={(value: string) => onFormFieldChange('email', value)}
         />
         <TextInputComponent
           isSecure={true}
           placeholder="Password"
-          onNewValue={value => onFormFieldChange('password', value)}
+          onNewValue={(value: string) => onFormFieldChange('password', value)}
         />
         <ButtonComponent
           title={isLogginInUser ? 'Please wait...' : 'Login'}
@@ -109,38 +101,54 @@ export const LoginComponent = () => {
           }}
           onPress={() => onLoginPress()}
         />
-        <View
-          style={{
-            display: 'flex',
-            flexDirection: 'row',
-            columnGap: 4,
-            marginTop: 24,
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}>
-          <Text
-            style={{
-              color: 'black',
-              fontFamily: FONT_POPPINS.regular,
-              fontSize: 12,
-            }}>
-            Dont have an account yet?
-          </Text>
+        <View style={STYLES.containerThree}>
+          <Text style={STYLES.titleTwo}>Dont have an account yet?</Text>
           <TouchableHighlight
             underlayColor={''}
             onPress={() => navigation.navigate('signup')}>
-            <Text
-              style={{
-                color: 'blue',
-                fontFamily: FONT_POPPINS.bold,
-                fontSize: 12,
-                textDecorationLine: 'underline',
-              }}>
-              Sign Up
-            </Text>
+            <Text style={STYLES.titleThree}>Sign Up</Text>
           </TouchableHighlight>
         </View>
       </View>
     </View>
   );
 };
+
+const STYLES = StyleSheet.create({
+  container: {
+    width: '100%',
+    height: '100%',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    rowGap: 48,
+  },
+  title: {
+    fontFamily: FONT_POPPINS.bold,
+    color: 'black',
+    fontSize: 20,
+  },
+  containerTwo: {
+    width: '75%',
+    rowGap: 12,
+  },
+  containerThree: {
+    display: 'flex',
+    flexDirection: 'row',
+    columnGap: 4,
+    marginTop: 24,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  titleTwo: {
+    color: 'black',
+    fontFamily: FONT_POPPINS.regular,
+    fontSize: 12,
+  },
+  titleThree: {
+    color: 'blue',
+    fontFamily: FONT_POPPINS.bold,
+    fontSize: 12,
+    textDecorationLine: 'underline',
+  },
+});
