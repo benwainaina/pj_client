@@ -13,22 +13,22 @@ const sharedSlice = createSlice({
   reducers: {},
   extraReducers: builder =>
     builder
-      .addCase(actionSignupUser.pending, (state, action) => {
+      .addCase(actionSignupUser.pending, (state, _action) => {
         state.isSigningUpUser = true;
       })
-      .addCase(actionSignupUser.fulfilled, (state, action) => {
+      .addCase(actionSignupUser.fulfilled, (state, _action) => {
         state.isSigningUpUser = false;
       })
-      .addCase(actionSignupUser.rejected, (state, action) => {
+      .addCase(actionSignupUser.rejected, (state, _action) => {
         state.isSigningUpUser = false;
       })
-      .addCase(actionLoginUser.pending, (state, action) => {
+      .addCase(actionLoginUser.pending, (state, _action) => {
         state.isLoggingInUser = true;
       })
-      .addCase(actionLoginUser.fulfilled, (state, action) => {
+      .addCase(actionLoginUser.fulfilled, (state, _action) => {
         state.isLoggingInUser = false;
       })
-      .addCase(actionLoginUser.rejected, (state, action) => {
+      .addCase(actionLoginUser.rejected, (state, _action) => {
         state.isLoggingInUser = false;
       }),
 });
