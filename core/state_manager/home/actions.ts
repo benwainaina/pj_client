@@ -3,7 +3,7 @@ import * as UserActionIDs from './action.ids';
 import {IStore} from '../store';
 import {selectUserTokenValue} from '../shared/selectors';
 import {CoreAPIService} from '../api/CoreAPI.service';
-import {IEntry, IEntryFilters, IUpdateProfileModel} from './interfaces';
+import {IEntry, IEntryFilters} from './interfaces';
 import {setAlertData, setUserToken} from '../shared/slice';
 import {IAlertData} from '../shared/interfaces';
 import {clearOverlayData, setUserProfile} from './slice';
@@ -198,7 +198,6 @@ export const actionUpdateProfile = createAsyncThunk(
         );
       }
       if (payload.newPassword) {
-        // password was changed
         dispatch<any>(setUserToken({userToken: '', isValid: false}));
       }
     } catch (error: any) {

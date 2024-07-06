@@ -35,7 +35,7 @@ export const HomeComponent = () => {
 
   useEffect(() => {
     dispatch<any>(getEntryCategories());
-  }, []);
+  }, [dispatch]);
 
   return (
     <View style={HOME_COMPONENT_STYLES.containerOne}>

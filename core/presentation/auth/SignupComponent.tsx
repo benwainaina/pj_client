@@ -56,7 +56,6 @@ export const SignupComponent = () => {
       }
     }
 
-    // check that the passwords match
     if (userDetails.password !== userDetails.confirmPassword) {
       _formIsValid = false;
     }

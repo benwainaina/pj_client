@@ -239,7 +239,6 @@ const EntryCategoriesListComponent = ({
     Array<IEntryCategory>
   >([]);
 
-  //   TODO filter categories based on the search key
   useEffect(() => {
     const filtered = entriesCategories.filter(category =>
       category?.name?.toLowerCase().includes(searchText),

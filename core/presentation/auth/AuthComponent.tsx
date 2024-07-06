@@ -2,7 +2,7 @@ import React from 'react';
 import {LoginComponent} from './LoginComponent';
 import {SignupComponent} from './SignupComponent';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {Image, StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, View} from 'react-native';
 import {FONT_POPPINS} from '../shared/utilities/constants/fonts.constants';
 import LogoSvg from '../assets/images/logo.svg';
 

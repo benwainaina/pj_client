@@ -59,17 +59,6 @@ export const selectKVEntriesCategories = createSelector(
 );
 
 /**
- * get a category by id from the list of available categories
- *
- * TODO: keep or delete this in favor of above???
- */
-export const selectCategoryFromAvailable = createSelector(
-  selectEntriesCategories,
-  categories => (categoryId: string) =>
-    categories.find(category => category.uuid === categoryId),
-);
-
-/**
  * select the overlay data
  */
 export const selectOverlayData = createSelector(
