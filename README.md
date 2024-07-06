@@ -12,8 +12,16 @@
 
 <h3>Login</h3>
 
-![Login Screen](sample_screenshots/login.png)
+![Login Screen](demos/login.png)
 
 <h3>Home</h3>
 
-![Login Screen](sample_screenshots/home.png)
+![Login Screen](demos/home.png)
+
+<h3>Demo Video 1 - E2E Flow</h3>
+
+[![Application Logic Flow](demos/login.png)](demos/demo_one.mp4)
+
+<h3>Demo Video 2 - Adding New Category</h3>
+
+[![Watch the video](demos/home.png)](demos/demo_two.mp4)
