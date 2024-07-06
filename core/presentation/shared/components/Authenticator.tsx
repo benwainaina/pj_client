@@ -15,7 +15,7 @@ export const Authenticator = ({children}: any) => {
 
   useEffect(() => {
     dispatch<any>(actionValidateToken());
-  }, []);
+  }, [dispatch]);
 
   return <>{children}</>;
 };
