@@ -15,6 +15,7 @@ import {clearOverlayData, setUserProfile} from './slice';
 import {dismissKeyboardUtility} from '../../presentation/shared/utilities/keyboard.utility';
 import {datePeriodFormatterUtility} from '../../presentation/shared/utilities/datePeriodFormatter.utility';
 import {shallowCopyUtility} from '../../presentation/shared/utilities/shallowCopy.utility';
+import {IDynamicObject} from '../../presentation/shared/interfaces';
 
 export const getEntryCategories = createAsyncThunk(
   UserActionIDs.IDActionGetEntryCategories,
@@ -127,7 +128,10 @@ export const getUserEntries = createAsyncThunk(
     const userToken = selectUserTokenValue(getState() as IStore);
 
     try {
-      const _filters = shallowCopyUtility(filters);
+      let _filters: IDynamicObject = {};
+      if (filters) {
+        _filters = shallowCopyUtility(filters);
+      }
       if (_filters.period) {
         if (_filters.period !== 'all') {
           _filters.period = datePeriodFormatterUtility(_filters.period);
@@ -164,7 +168,7 @@ export const deleteUserEntry = createAsyncThunk(
         token: userToken,
         uuid: entryId,
       });
-      dispatch<any>(clearOverlayData());
+      dispatch<any>(clearOverlayData({}));
       return {entryId};
     } catch (error: any) {
       commonAlertDispatch(
@@ -192,7 +196,7 @@ export const actionUpdateProfile = createAsyncThunk(
         token: userToken,
         ...payload,
       });
-      dispatch<any>(clearOverlayData());
+      dispatch<any>(clearOverlayData({}));
       dispatch<any>(
         setUserProfile({userProfile: {username: payload.username}}),
       );
