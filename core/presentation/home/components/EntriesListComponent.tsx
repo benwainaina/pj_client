@@ -1,5 +1,6 @@
+import React from 'react';
 import {useEffect} from 'react';
-import {Text, TouchableHighlight, View} from 'react-native';
+import {StyleSheet, Text, TouchableHighlight, View} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {getUserEntries} from '../../../state_manager/home/actions';
 import {
@@ -38,17 +39,10 @@ export const EntriesListComponent = () => {
 
   useEffect(() => {
     dispatch<any>(getUserEntries({filters}));
-  }, [filters]);
+  }, [filters, dispatch]);
 
   return (
-    <View
-      style={{
-        display: 'flex',
-        height: '100%',
-        width: '100%',
-        padding: 12,
-        position: 'relative',
-      }}>
+    <View style={ENTRIES_LIST_COMPONENT_STYLES.containerOne}>
       {entries?.length ? (
         <EntriesPresentComponent entries={entries} />
       ) : (
@@ -58,30 +52,43 @@ export const EntriesListComponent = () => {
   );
 };
 
+const ENTRIES_LIST_COMPONENT_STYLES = StyleSheet.create({
+  containerOne: {
+    display: 'flex',
+    height: '100%',
+    width: '100%',
+    padding: 12,
+    position: 'relative',
+  },
+});
+
 const NoEntriesPresentComponent = () => {
   return (
-    <View
-      style={{
-        width: '100%',
-        height: '100%',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        marginTop: 32,
-      }}>
-      <Text
-        style={{
-          color: 'black',
-          fontFamily: FONT_POPPINS.bold,
-          fontSize: 16,
-          width: '80%',
-          textAlign: 'center',
-        }}>
+    <View style={NO_ENTRIES_PRESENT_COMPONENT_STYLES.containerOne}>
+      <Text style={NO_ENTRIES_PRESENT_COMPONENT_STYLES.textOne}>
         You have not journalled anything here yet!
       </Text>
     </View>
   );
 };
+
+const NO_ENTRIES_PRESENT_COMPONENT_STYLES = StyleSheet.create({
+  containerOne: {
+    width: '100%',
+    height: '100%',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 32,
+  },
+  textOne: {
+    color: 'black',
+    fontFamily: FONT_POPPINS.bold,
+    fontSize: 16,
+    width: '80%',
+    textAlign: 'center',
+  },
+});
 
 const EntriesPresentComponent = ({entries}: {entries: Array<IEntry>}) => {
   /**
@@ -90,13 +97,7 @@ const EntriesPresentComponent = ({entries}: {entries: Array<IEntry>}) => {
   const categories = useSelector(selectKVEntriesCategories);
 
   return (
-    <View
-      style={{
-        paddingTop: 24,
-        rowGap: 24,
-        alignItems: 'center',
-        justifyContent: 'center',
-      }}>
+    <View style={ENTRIES_PRESENT_COMPONENT_STYLES.containerOne}>
       {entries.map((entry, index) => (
         <EntryComponent
           key={entry.uuid}
@@ -108,6 +109,15 @@ const EntriesPresentComponent = ({entries}: {entries: Array<IEntry>}) => {
     </View>
   );
 };
+
+const ENTRIES_PRESENT_COMPONENT_STYLES = StyleSheet.create({
+  containerOne: {
+    paddingTop: 24,
+    rowGap: 24,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+});
 
 const EntryComponent = ({
   entry,
@@ -125,7 +135,7 @@ const EntryComponent = ({
 
   return (
     <TouchableHighlight
-      style={{width: '100%', alignItems: 'center'}}
+      style={ENTRY_COMPONENT_STYLES.containerOne}
       underlayColor={'white'}
       onPress={() =>
         dispatch<ny>(
@@ -134,59 +144,18 @@ const EntryComponent = ({
       }>
       <View
         style={{
-          width: '90%',
-          padding: 12,
-          backgroundColor: 'white',
-          elevation: 12,
-          borderRadius: 12,
-          rowGap: 24,
+          ...ENTRY_COMPONENT_STYLES.containerTwo,
           marginBottom: isLastOfType ? 24 : 0,
         }}>
-        <View
-          style={{
-            flexDirection: 'column',
-            display: 'flex',
-            justifyContent: 'space-between',
-          }}>
-          <Text
-            style={{
-              color: 'black',
-              fontFamily: FONT_POPPINS.bold,
-              textTransform: 'capitalize',
-            }}>
-            {entry.title}
-          </Text>
-          <Text
-            style={{
-              color: 'black',
-              fontFamily: FONT_POPPINS.regular,
-              fontSize: 12,
-            }}>
+        <View style={ENTRY_COMPONENT_STYLES.containerThree}>
+          <Text style={ENTRY_COMPONENT_STYLES.titleOne}>{entry.title}</Text>
+          <Text style={ENTRY_COMPONENT_STYLES.titleTwo}>
             {dateFormatterUtility(entry.date, 'dddd DD MMMM YYYY')}
           </Text>
         </View>
-        <View
-          style={{
-            display: 'flex',
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-          }}>
-          <View
-            style={{
-              width: 'fit-content',
-              backgroundColor: 'black',
-              paddingHorizontal: 12,
-              paddingVertical: 6,
-              borderTopLeftRadius: 12,
-              borderBottomRightRadius: 12,
-            }}>
-            <Text
-              style={{
-                color: 'white',
-                fontFamily: FONT_POPPINS.bold,
-                textTransform: 'capitalize',
-              }}>
+        <View style={ENTRY_COMPONENT_STYLES.containerFour}>
+          <View style={ENTRY_COMPONENT_STYLES.containerFive}>
+            <Text style={ENTRY_COMPONENT_STYLES.titleThree}>
               {categories[entry.category]}
             </Text>
           </View>
@@ -196,3 +165,48 @@ const EntryComponent = ({
     </TouchableHighlight>
   );
 };
+
+const ENTRY_COMPONENT_STYLES = StyleSheet.create({
+  containerOne: {width: '100%', alignItems: 'center'},
+  containerTwo: {
+    width: '100%',
+    padding: 12,
+    backgroundColor: 'white',
+    elevation: 12,
+    borderRadius: 12,
+    rowGap: 24,
+  },
+  containerThree: {
+    flexDirection: 'column',
+    display: 'flex',
+    justifyContent: 'space-between',
+  },
+  containerFour: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  containerFive: {
+    backgroundColor: 'black',
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderTopLeftRadius: 12,
+    borderBottomRightRadius: 12,
+  },
+  titleOne: {
+    color: 'black',
+    fontFamily: FONT_POPPINS.bold,
+    textTransform: 'capitalize',
+  },
+  titleTwo: {
+    color: 'black',
+    fontFamily: FONT_POPPINS.regular,
+    fontSize: 12,
+  },
+  titleThree: {
+    color: 'white',
+    fontFamily: FONT_POPPINS.bold,
+    textTransform: 'capitalize',
+  },
+});

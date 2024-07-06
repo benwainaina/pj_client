@@ -1,5 +1,5 @@
 import {ScrollView, Text, TouchableHighlight, View} from 'react-native';
-import {EntriesListComponent} from './components/EntriesFilterComponent';
+import {EntriesListComponent} from './components/EntriesListComponent';
 import {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {getEntryCategories} from '../../state_manager/home/actions';
