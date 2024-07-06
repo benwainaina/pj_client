@@ -1,4 +1,11 @@
-import {Text, TextInput, TouchableHighlight, View} from 'react-native';
+import React from 'react';
+import {
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableHighlight,
+  View,
+} from 'react-native';
 import {FONT_POPPINS} from '../../../shared/utilities/constants/fonts.constants';
 import {TextInputComponent} from '../../../shared/components/TextInputComponent';
 import {useDispatch, useSelector} from 'react-redux';
@@ -73,7 +80,7 @@ export const CreateOrUpdateEntryOverlayComponent = ({
       setEntryTitle(_entryForm.title);
       setIsSelected(true);
     }
-  }, [entry]);
+  }, [entry, entryCategories]);
 
   /**
    * handler methods
@@ -97,7 +104,7 @@ export const CreateOrUpdateEntryOverlayComponent = ({
     onEntryFormChange('category', _category.uuid);
   };
 
-  const onEntryFormChange = (formControl: string, formFieldValue: string) => {
+  const onEntryFormChange = (formControl: string, formFieldValue: any) => {
     const _entryForm = entryForm;
     _entryForm[formControl] = formFieldValue;
     validateEntryForm();
@@ -116,7 +123,8 @@ export const CreateOrUpdateEntryOverlayComponent = ({
   };
 
   const onSubmitJournal = () => {
-    entryForm['createCategory'] = !isSelected;
+    entryForm.createCategory = !isSelected;
+    console.log('entryForm', entryForm);
     if (entry) {
       entryForm.uuid = entry.uuid;
       dispatch<any>(actionUpdateUserEntry({entry: entryForm as IEntry}));
@@ -127,43 +135,31 @@ export const CreateOrUpdateEntryOverlayComponent = ({
   };
 
   return (
-    <View
-      style={{
-        width: '100%',
-        borderRadius: 6,
-        alignSelf: 'center',
-        bottom: 0,
-        position: 'absolute',
-      }}>
-      <View
-        style={{
-          backgroundColor: 'white',
-          width: '100%',
-          alignSelf: 'center',
-          padding: 24,
-          rowGap: 24,
-        }}>
-        <Text style={{color: 'black', fontFamily: FONT_POPPINS.bold}}>
+    <View style={STYLES.containerOne}>
+      <View style={STYLES.containerTwo}>
+        <Text style={STYLES.titleOne}>
           {entry ? 'Edit Entry' : 'Create An Entry'}
         </Text>
-        <View style={{rowGap: 12}}>
-          <View style={{position: 'relative', zIndex: 1}}>
+        <View style={STYLES.containerThree}>
+          <View style={STYLES.containerFour}>
             <TextInputComponent
               placeholder="Category"
-              onNewValue={searchText => onCategorySearch(searchText)}
+              onNewValue={(searchText: string) => onCategorySearch(searchText)}
               isSecure={false}
               defaultValue={category}
             />
             {showCategories && (
               <EntryCategoriesListComponent
                 searchText={categorySearchText}
-                onPickCategory={category => onCategorySelected(category)}
+                onPickCategory={(_category: IEntryCategory) =>
+                  onCategorySelected(_category)
+                }
               />
             )}
           </View>
           <TextInputComponent
             placeholder="Journal title"
-            onNewValue={textContent => {
+            onNewValue={(textContent: string) => {
               setEntryTitle(textContent);
               onEntryFormChange('title', textContent);
             }}
@@ -178,18 +174,7 @@ export const CreateOrUpdateEntryOverlayComponent = ({
             multiline={true}
             numberOfLines={7}
             placeholderTextColor={'black'}
-            style={{
-              fontFamily: FONT_POPPINS.regular,
-              borderColor: '#ddd',
-              borderWidth: 1,
-              width: '100%',
-              color: 'black',
-              paddingLeft: 12,
-              paddingVertical: 8,
-              borderRadius: 4,
-              fontSize: 12,
-              alignItems: 'flex-start',
-            }}
+            style={STYLES.journalContentInput}
             defaultValue={entryForm.content}
           />
           <DatePicker
@@ -208,13 +193,7 @@ export const CreateOrUpdateEntryOverlayComponent = ({
             onPress={() => {
               setShowDatePicker(true);
             }}>
-            <Text
-              style={{
-                color: 'black',
-                fontFamily: FONT_POPPINS.bold,
-                textDecorationLine: 'underline',
-                marginTop: 12,
-              }}>
+            <Text style={STYLES.titleTwo}>
               {journalDate
                 ? dateFormatterUtility(journalDate, 'dddd DD MMMM YYYY')
                 : 'Add date'}
@@ -267,20 +246,13 @@ const EntryCategoriesListComponent = ({
       category?.name?.toLowerCase().includes(searchText),
     );
     setFilteredEntriesCategories(filtered);
-  }, [searchText]);
+  }, [searchText, entriesCategories]);
 
   return (
     <View
       style={{
+        ...STYLES.containerFive,
         display: filteredEntriesCategories.length ? 'flex' : 'none',
-        backgroundColor: 'white',
-        position: 'absolute',
-        top: '100%',
-        zIndex: 1,
-        width: '100%',
-        elevation: 2,
-        padding: 12,
-        borderRadius: 2,
       }}>
       {filteredEntriesCategories.map(category => (
         <TouchableHighlight
@@ -289,16 +261,62 @@ const EntryCategoriesListComponent = ({
           onPress={() => {
             onPickCategory(category);
           }}>
-          <Text
-            style={{
-              color: 'black',
-              textTransform: 'capitalize',
-              fontFamily: FONT_POPPINS.bold,
-            }}>
-            {category.name}
-          </Text>
+          <Text style={STYLES.titleThree}>{category.name}</Text>
         </TouchableHighlight>
       ))}
     </View>
   );
 };
+
+const STYLES = StyleSheet.create({
+  containerOne: {
+    width: '100%',
+    borderRadius: 6,
+    alignSelf: 'center',
+    bottom: 0,
+    position: 'absolute',
+  },
+  containerTwo: {
+    backgroundColor: 'white',
+    width: '100%',
+    alignSelf: 'center',
+    padding: 24,
+    rowGap: 24,
+  },
+  containerThree: {rowGap: 12},
+  containerFour: {position: 'relative', zIndex: 1},
+  containerFive: {
+    backgroundColor: 'white',
+    position: 'absolute',
+    top: '100%',
+    zIndex: 1,
+    width: '100%',
+    elevation: 2,
+    padding: 12,
+    borderRadius: 2,
+  },
+  titleOne: {color: 'black', fontFamily: FONT_POPPINS.bold},
+  titleTwo: {
+    color: 'black',
+    fontFamily: FONT_POPPINS.bold,
+    textDecorationLine: 'underline',
+    marginTop: 12,
+  },
+  titleThree: {
+    color: 'black',
+    textTransform: 'capitalize',
+    fontFamily: FONT_POPPINS.bold,
+  },
+  journalContentInput: {
+    fontFamily: FONT_POPPINS.regular,
+    borderColor: '#ddd',
+    borderWidth: 1,
+    width: '100%',
+    color: 'black',
+    paddingLeft: 12,
+    paddingVertical: 8,
+    borderRadius: 4,
+    fontSize: 12,
+    alignItems: 'flex-start',
+  },
+});
